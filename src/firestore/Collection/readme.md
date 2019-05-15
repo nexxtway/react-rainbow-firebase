@@ -1,0 +1,3 @@
+Base example:
+
+    <Collection />
