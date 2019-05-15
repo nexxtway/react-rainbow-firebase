@@ -6,7 +6,7 @@ export default function Collection(props) {
     return (
         <div className={className} style={style} />
     );
-};
+}
 
 Collection.propTypes = {
     className: PropTypes.string,
