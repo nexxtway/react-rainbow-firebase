@@ -1,7 +1,21 @@
 /* eslint-disable */
 const path = require('path');
 const withRainbowStyles = require('react-rainbow-styleguide');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
 const version = require('./package.json').version;
+
+const env = dotenv.config();
+let envKeys;
+
+if (env.parsed && !env.error) {
+    envKeys = Object.keys(env.parsed).reduce((prev, next) => {
+        prev[`process.env.${next}`] = JSON.stringify(env.parsed[next]);
+        return prev;
+    }, {});
+} else {
+    envKeys = {};
+}
 
 module.exports = withRainbowStyles({
     version,
@@ -32,6 +46,9 @@ module.exports = withRainbowStyles({
             ]
         },
     },
+    styleguideComponents: {
+        Wrapper: path.join(__dirname, 'library/styleguideComponents/Wrapper'),
+    },
     sections: [
         {
             name: 'Getting Started',
@@ -60,6 +77,11 @@ module.exports = withRainbowStyles({
                     loader: 'babel-loader',
                 },
                 {
+                    test: /\.(js|jsx)$/,
+                    include: path.resolve(__dirname, 'library'),
+                    loader: 'babel-loader',
+                },
+                {
                     test: /\.(css|scss)$/,
                     loaders: ['style-loader', 'css-loader', 'sass-loader'],
                 },
@@ -76,5 +98,8 @@ module.exports = withRainbowStyles({
                 },
             ],
         },
+        plugins: [
+            new webpack.DefinePlugin(envKeys),
+        ],
     },
 });
