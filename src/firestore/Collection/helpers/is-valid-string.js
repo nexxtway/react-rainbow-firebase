@@ -1,3 +1,3 @@
-export default function isValidString(where) {
-    return where && typeof where === 'string';
+export default function isValidString(value) {
+    return value && typeof value === 'string';
 }

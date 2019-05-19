@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactJson from 'react-json-view';
 import pick from 'lodash/pick';
-import { subscribeCollection, resetCollectionStore } from './actions';
+import {
+    subscribeCollection,
+    resetCollectionStore,
+    addDocument,
+    updateDocument,
+    removeDocument,
+} from './actions';
 import hasQueryPropsChanged from './helpers/has-query-props-changed';
 import generateId from './helpers/generate-id';
 import store from './store';
@@ -23,6 +29,9 @@ export default class Collection extends Component {
     constructor(props) {
         super(props);
         this.subscribeToStore();
+        this.addDoc = this.addDoc.bind(this);
+        this.updateDoc = this.updateDoc.bind(this);
+        this.removeDoc = this.removeDoc.bind(this);
     }
 
     componentDidMount() {
@@ -35,14 +44,7 @@ export default class Collection extends Component {
         const prevQueryProps = pickProps(prevProps);
         const queryProps = pickProps(this.props);
         if (hasQueryPropsChanged(prevQueryProps, queryProps)) {
-            const { unsubscribe } = this.state;
-            const id = generateId(queryProps);
-            const prevId = generateId(prevQueryProps);
-            unsubscribe();
-            this.unsubscribeFromStore();
-            this.subscribeToStore();
-            store.dispatch(resetCollectionStore(prevId));
-            store.dispatch(subscribeCollection(queryProps, id));
+            this.resetQuery(prevQueryProps, queryProps);
         }
     }
 
@@ -52,6 +54,17 @@ export default class Collection extends Component {
         const id = generateId(queryProps);
         unsubscribe();
         store.dispatch(resetCollectionStore(id));
+    }
+
+    resetQuery(prevQueryProps, nextQueryProps) {
+        const { unsubscribe } = this.state;
+        const nextId = generateId(nextQueryProps);
+        const prevId = generateId(prevQueryProps);
+        unsubscribe();
+        this.unsubscribeFromStore();
+        this.subscribeToStore();
+        store.dispatch(resetCollectionStore(prevId));
+        store.dispatch(subscribeCollection(nextQueryProps, nextId));
     }
 
     subscribeToStore() {
@@ -64,13 +77,35 @@ export default class Collection extends Component {
         });
     }
 
+    addDoc(data) {
+        const { path } = this.props;
+        addDocument(path, data);
+    }
+
+    updateDoc(id, data) {
+        const { path } = this.props;
+        updateDocument(path, id, data);
+    }
+
+    removeDoc(id) {
+        const { path } = this.props;
+        removeDocument(path, id);
+    }
+
     render() {
         const {
             component: CollectionComponent,
             ...rest
         } = this.props;
 
-        return <CollectionComponent {...rest} {...this.state} />;
+        return (
+            <CollectionComponent
+                {...rest}
+                {...this.state}
+                addDoc={this.addDoc}
+                updateDoc={this.updateDoc}
+                removeDoc={this.removeDoc} />
+        );
     }
 }
 
