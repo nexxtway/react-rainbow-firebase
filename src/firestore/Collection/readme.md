@@ -1,6 +1,6 @@
 Base example:
 
-    <Collection path="users" />
+    <Collection path="users" limit={10} />
 
 Limited to 5 regular users:
 

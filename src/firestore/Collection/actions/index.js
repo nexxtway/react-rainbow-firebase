@@ -1,14 +1,19 @@
-import registerCollection, { REGISTER_COLLECTION } from './register-collection';
-import {
+import subscribeCollection, {
     START_LOADING_COLLECTION,
-    LOAD_COLLECTION,
-    ERROR_COLLECTION,
-} from './fetch-collection';
+    LOAD_COLLECTION_CHANGE,
+    COLLECTION_ERROR,
+    LOAD_UNSUBSCRIBE_FUNCTION,
+} from './subscribe-collection';
+import resetCollectionStore, {
+    RESET_COLLECTION_STORE,
+} from './reset-collection-store';
 
 export {
-    registerCollection,
-    REGISTER_COLLECTION,
+    subscribeCollection,
     START_LOADING_COLLECTION,
-    LOAD_COLLECTION,
-    ERROR_COLLECTION,
+    LOAD_COLLECTION_CHANGE,
+    COLLECTION_ERROR,
+    LOAD_UNSUBSCRIBE_FUNCTION,
+    resetCollectionStore,
+    RESET_COLLECTION_STORE,
 };
