@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactJson from 'react-json-view';
 import pick from 'lodash/pick';
-import { registerCollection } from './actions';
+import { subscribeCollection, resetCollectionStore } from './actions';
+import hasQueryPropsChanged from './helpers/has-query-props-changed';
+import generateId from './helpers/generate-id';
 import store from './store';
 
 function pickProps(props) {
@@ -20,13 +22,46 @@ function pickProps(props) {
 export default class Collection extends Component {
     constructor(props) {
         super(props);
-        store.subscribe(() => {
-            this.setState(store.getState()[props.path]);
-        });
+        this.subscribeToStore();
     }
 
     componentDidMount() {
-        store.dispatch(registerCollection(pickProps(this.props)));
+        const queryProps = pickProps(this.props);
+        const id = generateId(queryProps);
+        store.dispatch(subscribeCollection(queryProps, id));
+    }
+
+    componentDidUpdate(prevProps) {
+        const prevQueryProps = pickProps(prevProps);
+        const queryProps = pickProps(this.props);
+        if (hasQueryPropsChanged(prevQueryProps, queryProps)) {
+            const { unsubscribe } = this.state;
+            const id = generateId(queryProps);
+            const prevId = generateId(prevQueryProps);
+            unsubscribe();
+            this.unsubscribeFromStore();
+            this.subscribeToStore();
+            store.dispatch(resetCollectionStore(prevId));
+            store.dispatch(subscribeCollection(queryProps, id));
+        }
+    }
+
+    componentWillUnmount() {
+        const { unsubscribe } = this.state;
+        const queryProps = pickProps(this.props);
+        const id = generateId(queryProps);
+        unsubscribe();
+        store.dispatch(resetCollectionStore(id));
+    }
+
+    subscribeToStore() {
+        const id = generateId(pickProps(this.props));
+        this.unsubscribeFromStore = store.subscribe(() => {
+            const state = store.getState()[id];
+            if (state) {
+                this.setState(state);
+            }
+        });
     }
 
     render() {

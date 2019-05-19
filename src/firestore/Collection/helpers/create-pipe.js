@@ -1,4 +1,7 @@
-const OPERATORS = ['eq', 'gt', 'gte', 'lt', 'lte', 'contains'];
+import isValidString from './is-valid-string';
+import getOrderByDirection from './get-order-by-direction';
+import getOperator from './get-operator';
+
 const OPERATORS_MAP = {
     eq: '==',
     gt: '>',
@@ -7,21 +10,6 @@ const OPERATORS_MAP = {
     lte: '<=',
     contains: 'array_contains',
 };
-
-function hasValidWhereClause(where) {
-    return where && typeof where === 'string';
-}
-
-function hasValidOrderByClause(orderBy) {
-    return orderBy && typeof orderBy === 'string';
-}
-
-function getOrderByDirection(dir) {
-    if (dir === 'desc') {
-        return 'desc';
-    }
-    return 'asc';
-}
 
 export default function createPipe(reference, query) {
     if (Array.isArray(query)) {
@@ -37,12 +25,12 @@ export default function createPipe(reference, query) {
                 limit,
             } = queryItem;
 
-            if (hasValidWhereClause(where)) {
-                const operator = OPERATORS.find(operatorString => queryItem[operatorString]);
+            if (isValidString(where)) {
+                const operator = getOperator(queryItem);
                 const value = queryItem[operator];
                 return ref.where(where, OPERATORS_MAP[operator], value);
             }
-            if (hasValidOrderByClause(orderBy)) {
+            if (isValidString(orderBy)) {
                 return ref.orderBy(orderBy, getOrderByDirection(dir));
             }
             if (startAt !== undefined) {
