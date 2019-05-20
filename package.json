@@ -55,6 +55,7 @@
     "firebase": "^6.0.2",
     "firebase-tools": "^6.9.2",
     "pre-push": "^0.1.1",
+    "react-rainbow-components": "1.3.0",
     "react-rainbow-styleguide": "^1.1.0",
     "react-styleguidist": "^7.3.9"
   },
