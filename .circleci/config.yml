@@ -58,7 +58,7 @@ jobs:
                 echo REACT_APP_FIREBASE_MESSAGING_SENDERID=$REACT_APP_FIREBASE_MESSAGING_SENDERID >> .env;
 
       - run: yarn install
-      - run: yarn deploy --token=$FIREBASE_TOKEN
+      - run: yarn deploy:library --token=$FIREBASE_TOKEN
 
 workflows:
   version: 2

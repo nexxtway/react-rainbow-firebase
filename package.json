@@ -1,7 +1,24 @@
 {
   "name": "react-rainbow-firebase",
   "version": "0.1.0",
-  "private": true,
+  "description": "React Rainbow Firebase",
+  "keywords": [
+    "react",
+    "components",
+    "library",
+    "rainbow",
+    "firebase"
+],
+  "main": "components/index.js",
+  "authors": [
+    "Reinier Guerra",
+    "Leandro Torres"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/90milesbridge/react-rainbow-firebase.git"
+  },
+  "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
@@ -15,12 +32,15 @@
   },
   "scripts": {
     "start": "npx styleguidist server",
-    "build": "npx styleguidist build",
+    "build": "npx babel ./src --out-dir ./components",
+    "build:library": "npx styleguidist build",
     "test": "react-scripts test",
     "test:ci": "CI=true yarn test",
     "lint": "eslint src",
     "eject": "react-scripts eject",
-    "deploy": "yarn build && firebase deploy"
+    "deploy:library": "yarn build:library && firebase deploy",
+    "clean": "rm -Rf components",
+    "prepublishOnly": "yarn clean && yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,6 +61,8 @@
     "firebase": "^6.0.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",

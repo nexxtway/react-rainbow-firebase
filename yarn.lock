@@ -2,6 +2,23 @@
 # yarn lockfile v1
 
 
+"@babel/cli@^7.4.4":
+  version "7.4.4"
+  resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.4.4.tgz#5454bb7112f29026a4069d8e6f0e1794e651966c"
+  integrity sha512-XGr5YjQSjgTa6OzQZY57FAJsdeVSAKR/u/KA5exWIz66IKtv/zXtHy+fIZcMry/EgYegwuHE7vzGnrFhjdIAsQ==
+  dependencies:
+    commander "^2.8.1"
+    convert-source-map "^1.1.0"
+    fs-readdir-recursive "^1.1.0"
+    glob "^7.0.0"
+    lodash "^4.17.11"
+    mkdirp "^0.5.1"
+    output-file-sync "^2.0.0"
+    slash "^2.0.0"
+    source-map "^0.5.0"
+  optionalDependencies:
+    chokidar "^2.0.4"
+
 "@babel/code-frame@7.0.0", "@babel/code-frame@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0.tgz#06e2ab19bdb535385559aabb5ba59729482800f8"
@@ -36,7 +53,7 @@
     semver "^5.4.1"
     source-map "^0.5.0"
 
-"@babel/core@^7.0.1", "@babel/core@^7.1.0", "@babel/core@^7.1.6", "@babel/core@^7.4.3":
+"@babel/core@^7.0.1", "@babel/core@^7.1.0", "@babel/core@^7.1.6", "@babel/core@^7.4.3", "@babel/core@^7.4.4":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.4.4.tgz#84055750b05fcd50f9915a826b44fa347a825250"
   integrity sha512-lQgGX3FPRgbz2SKmhMtYgJvVzGZrmjaF4apZ2bLwofAKiSjxU0drPh4S/VasyYXwaTs+A1gvQ45BN8SQJzHsQQ==
@@ -6515,7 +6532,7 @@ fs-minipass@^1.2.5:
   dependencies:
     minipass "^2.2.1"
 
-fs-readdir-recursive@^1.0.0:
+fs-readdir-recursive@^1.0.0, fs-readdir-recursive@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/fs-readdir-recursive/-/fs-readdir-recursive-1.1.0.tgz#e32fc030a2ccee44a6b5371308da54be0b397d27"
   integrity sha512-GNanXlVr2pf02+sPN40XN8HG+ePaNcvM0q5mZBd668Obwb0yD5GiUbZOFgwn8kGMY6I3mdyDJzieUy3PTYyTRA==
@@ -10305,6 +10322,15 @@ output-file-sync@^1.1.2:
     graceful-fs "^4.1.4"
     mkdirp "^0.5.1"
     object-assign "^4.1.0"
+
+output-file-sync@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/output-file-sync/-/output-file-sync-2.0.1.tgz#f53118282f5f553c2799541792b723a4c71430c0"
+  integrity sha512-mDho4qm7WgIXIGf4eYU1RHN2UU5tPfVYVSRwDJw0uTmj35DQUt/eNp19N7v6T3SrR0ESTEf2up2CGO73qI35zQ==
+  dependencies:
+    graceful-fs "^4.1.11"
+    is-plain-obj "^1.1.0"
+    mkdirp "^0.5.1"
 
 p-defer@^1.0.0:
   version "1.0.0"
