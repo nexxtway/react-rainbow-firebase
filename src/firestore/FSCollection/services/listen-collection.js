@@ -3,7 +3,7 @@ import createPipe from '../helpers/create-pipe';
 
 export default function listenCollection(opts, onDocChange, onError) {
     const {
-        path,
+        collectionRef,
         query,
         startAt,
         startAfter,
@@ -12,7 +12,7 @@ export default function listenCollection(opts, onDocChange, onError) {
         limit,
     } = opts;
 
-    const collectionRef = FirebaseApp.instance.firestore().collection(path);
+    const ref = FirebaseApp.instance.firestore().collection(collectionRef);
     const queryArray = query.concat([
         { startAt },
         { startAfter },
@@ -21,7 +21,7 @@ export default function listenCollection(opts, onDocChange, onError) {
         { limit },
     ]);
 
-    return createPipe(collectionRef, queryArray)
+    return createPipe(ref, queryArray)
         .onSnapshot(snapshot => {
             if (snapshot.empty) {
                 onDocChange(null);

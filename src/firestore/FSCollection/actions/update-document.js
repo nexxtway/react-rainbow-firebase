@@ -1,10 +1,10 @@
 import FirebaseApp from '../../../firebase';
 
-export default function updateDocument(path, id, data) {
+export default function updateDocument(collectionRef, id, data) {
     FirebaseApp
         .instance
         .firestore()
-        .collection(path)
+        .collection(collectionRef)
         .doc(id)
         .update(data);
 }

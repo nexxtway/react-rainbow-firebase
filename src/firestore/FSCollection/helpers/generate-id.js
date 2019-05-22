@@ -5,7 +5,7 @@ import getOperator from './get-operator';
 
 export default function generateId(opts) {
     const {
-        path,
+        collectionRef,
         query = [],
         startAt,
         startAfter,
@@ -59,7 +59,7 @@ export default function generateId(opts) {
         }
 
         return acc;
-    }, `path:${path}`);
+    }, `collectionRef:${collectionRef}`);
 
     return id;
 }

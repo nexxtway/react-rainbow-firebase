@@ -1,9 +1,9 @@
 import FirebaseApp from '../../../firebase';
 
-export default function addDocument(path, data) {
+export default function addDocument(collectionRef, data) {
     FirebaseApp
         .instance
         .firestore()
-        .collection(path)
+        .collection(collectionRef)
         .add(data);
 }

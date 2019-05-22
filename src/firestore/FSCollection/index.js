@@ -15,7 +15,7 @@ import store from './store';
 
 function pickProps(props) {
     return pick(props, [
-        'path',
+        'collectionRef',
         'query',
         'limit',
         'startAt',
@@ -25,9 +25,10 @@ function pickProps(props) {
     ]);
 }
 
-export default class Collection extends Component {
+export default class FSCollection extends Component {
     constructor(props) {
         super(props);
+        this.state = {};
         this.subscribeToStore();
         this.addDoc = this.addDoc.bind(this);
         this.updateDoc = this.updateDoc.bind(this);
@@ -78,30 +79,40 @@ export default class Collection extends Component {
     }
 
     addDoc(data) {
-        const { path } = this.props;
-        addDocument(path, data);
+        const { collectionRef } = this.props;
+        addDocument(collectionRef, data);
     }
 
     updateDoc(id, data) {
-        const { path } = this.props;
-        updateDocument(path, id, data);
+        const { collectionRef } = this.props;
+        updateDocument(collectionRef, id, data);
     }
 
     removeDoc(id) {
-        const { path } = this.props;
-        removeDocument(path, id);
+        const { collectionRef } = this.props;
+        removeDocument(collectionRef, id);
     }
 
     render() {
         const {
             component: CollectionComponent,
+            collectionRef,
+            query,
+            limit,
+            startAt,
+            startAfter,
+            endAt,
+            endBefore,
             ...rest
         } = this.props;
+        const { data, isLoading, error } = this.state;
 
         return (
             <CollectionComponent
                 {...rest}
-                {...this.state}
+                data={data}
+                isLoading={isLoading}
+                error={error}
                 addDoc={this.addDoc}
                 updateDoc={this.updateDoc}
                 removeDoc={this.removeDoc} />
@@ -109,8 +120,8 @@ export default class Collection extends Component {
     }
 }
 
-Collection.propTypes = {
-    path: PropTypes.string.isRequired,
+FSCollection.propTypes = {
+    collectionRef: PropTypes.string.isRequired,
     component: PropTypes.func,
     query: PropTypes.array,
     limit: PropTypes.number,
@@ -136,7 +147,7 @@ Collection.propTypes = {
     ]),
 };
 
-Collection.defaultProps = {
+FSCollection.defaultProps = {
     /* eslint-disable-next-line */
     component: ({ data }) => <ReactJson src={data} />,
     query: [],

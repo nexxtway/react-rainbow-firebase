@@ -1,6 +1,6 @@
 export default function hasQueryPropsChanged(prevProps, props) {
     const {
-        path: prevPath,
+        collectionRef: prevCollectionRef,
         query: prevQuery,
         limit: prevLimit,
         startAt: prevStartAt,
@@ -9,7 +9,7 @@ export default function hasQueryPropsChanged(prevProps, props) {
         endBefore: prevEndBefore,
     } = prevProps;
     const {
-        path,
+        collectionRef,
         query,
         limit,
         startAt,
@@ -17,7 +17,7 @@ export default function hasQueryPropsChanged(prevProps, props) {
         endAt,
         endBefore,
     } = props;
-    const isSomePropChanged = path !== prevPath
+    const isSomePropChanged = collectionRef !== prevCollectionRef
         || query !== prevQuery
         || limit !== prevLimit
         || startAt !== prevStartAt
