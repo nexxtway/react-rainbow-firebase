@@ -1,7 +1,7 @@
 import FirebaseApp from './firebase';
-import FirestoreCollection from './firestore/Collection';
+import FSCollection from './firestore/FSCollection';
 
 export {
     FirebaseApp,
-    FirestoreCollection,
+    FSCollection,
 };

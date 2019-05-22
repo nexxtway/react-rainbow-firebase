@@ -1,11 +1,11 @@
 Base example:
 
-    <Collection path="users" limit={10} />
+    <FSCollection collectionRef="users" limit={10} />
 
 Limited to 5 regular users:
 
-    <Collection
-        path="users"
+    <FSCollection
+        collectionRef="users"
         query={[
             {
                 where: 'type',
@@ -16,8 +16,8 @@ Limited to 5 regular users:
 
 Ordered by firstName and start at Leo:
 
-    <Collection
-        path="users"
+    <FSCollection
+        collectionRef="users"
         query={[
             {
                 orderBy: 'firstName',
@@ -46,4 +46,4 @@ Table example:
         );
     }
 
-    <Collection path="users" component={CollectionTable} />
+    <FSCollection collectionRef="users" component={CollectionTable} />

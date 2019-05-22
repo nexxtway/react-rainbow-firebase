@@ -1,10 +1,10 @@
 import FirebaseApp from '../../../firebase';
 
-export default function removeDocument(path, id) {
+export default function removeDocument(collectionRef, id) {
     FirebaseApp
         .instance
         .firestore()
-        .collection(path)
+        .collection(collectionRef)
         .doc(id)
         .delete();
 }
