@@ -4,6 +4,7 @@ import {
     LOAD_LOOKUP_COLLECTION_ERROR,
     LOAD_LOOKUP_COLLECTION_VALUE,
 } from '../actions';
+import { findById } from '../helpers';
 
 const initialState = {};
 
@@ -25,7 +26,7 @@ function loadCollectionChange(state, { id, options }) {
             [id]: {
                 ...state[id],
                 options,
-                value: value ? options.find(opt => opt.id === value.id) : null,
+                value: value ? findById(options, value.id) : null,
             },
         };
     }
