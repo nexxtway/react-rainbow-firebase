@@ -18,74 +18,18 @@ function startLoading(state, { id }) {
     };
 }
 
-function addDoc(state, key, payload) {
-    const currentData = state[key].data;
-    let data;
-    if (currentData) {
-        data = currentData.concat(payload);
-    } else {
-        data = [payload];
-    }
-    return {
-        ...state,
-        [key]: {
-            ...state[key],
-            data,
-        },
-    };
-}
-
-function updateDoc(state, key, payload) {
-    const currentData = [...state[key].data];
-    const docIndex = currentData.findIndex(doc => doc.id === payload.id);
-
-    if (docIndex > -1) {
-        currentData[docIndex] = payload;
+function loadCollectionChange(state, { id, data }) {
+    if (data) {
         return {
             ...state,
-            [key]: {
-                ...state[key],
-                data: currentData,
+            [id]: {
+                ...state[id],
+                isLoading: false,
+                data,
             },
         };
     }
     return state;
-}
-
-function removeDoc(state, key, payload) {
-    const data = state[key].data.filter(doc => doc.id !== payload.id);
-    return {
-        ...state,
-        [key]: {
-            ...state[key],
-            data,
-        },
-    };
-}
-
-function loadCollectionChange(state, { id: key, payload }) {
-    const newState = {
-        ...state,
-        [key]: {
-            ...state[key],
-            isLoading: false,
-        },
-    };
-    if (payload === null) {
-        return newState;
-    }
-
-    const { type, data, id } = payload;
-    if (type === 'added') {
-        return addDoc(newState, key, { data, id });
-    }
-    if (type === 'modified') {
-        return updateDoc(newState, key, { data, id });
-    }
-    if (type === 'removed') {
-        return removeDoc(newState, key, { data, id });
-    }
-    return newState;
 }
 
 function collectionError(state, { id, error }) {

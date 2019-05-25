@@ -12,11 +12,11 @@ export default function subscribeCollection(opts, id) {
             type: START_LOADING_COLLECTION,
             id,
         });
-        const unsubscribe = listenCollection(opts, payload => {
+        const unsubscribe = listenCollection(opts, data => {
             dispatch({
                 type: LOAD_COLLECTION_CHANGE,
                 id,
-                payload,
+                data,
             });
         }, error => {
             console.log(error.message);

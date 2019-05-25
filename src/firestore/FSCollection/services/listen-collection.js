@@ -26,14 +26,10 @@ export default function listenCollection(opts, onDocChange, onError) {
             if (snapshot.empty) {
                 onDocChange(null);
             } else {
-                snapshot.docChanges().forEach(change => {
-                    const { doc, type } = change;
-                    onDocChange({
-                        type,
-                        id: doc.id,
-                        data: doc.data(),
-                    });
-                });
+                onDocChange(snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    data: doc.data(),
+                })));
             }
         }, error => onError(error));
 }
