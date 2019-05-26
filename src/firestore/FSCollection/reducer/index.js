@@ -19,17 +19,14 @@ function startLoading(state, { id }) {
 }
 
 function loadCollectionChange(state, { id, data }) {
-    if (data) {
-        return {
-            ...state,
-            [id]: {
-                ...state[id],
-                isLoading: false,
-                data,
-            },
-        };
-    }
-    return state;
+    return {
+        ...state,
+        [id]: {
+            ...state[id],
+            isLoading: false,
+            data,
+        },
+    };
 }
 
 function collectionError(state, { id, error }) {

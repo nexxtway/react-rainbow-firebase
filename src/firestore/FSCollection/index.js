@@ -28,7 +28,10 @@ function pickProps(props) {
 export default class FSCollection extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            data: [],
+            isLoading: false,
+        };
         this.subscribeToStore();
         this.addDoc = this.addDoc.bind(this);
         this.updateDoc = this.updateDoc.bind(this);
@@ -55,6 +58,7 @@ export default class FSCollection extends Component {
         const id = generateId(queryProps);
         unsubscribe();
         store.dispatch(resetCollectionStore(id));
+        this.unsubscribeFromStore();
     }
 
     resetQuery(prevQueryProps, nextQueryProps) {
@@ -62,9 +66,9 @@ export default class FSCollection extends Component {
         const nextId = generateId(nextQueryProps);
         const prevId = generateId(prevQueryProps);
         unsubscribe();
+        store.dispatch(resetCollectionStore(prevId));
         this.unsubscribeFromStore();
         this.subscribeToStore();
-        store.dispatch(resetCollectionStore(prevId));
         store.dispatch(subscribeCollection(nextQueryProps, nextId));
     }
 
@@ -74,6 +78,8 @@ export default class FSCollection extends Component {
             const state = store.getState()[id];
             if (state) {
                 this.setState(state);
+            } else {
+                this.setState({ data: [] });
             }
         });
     }
