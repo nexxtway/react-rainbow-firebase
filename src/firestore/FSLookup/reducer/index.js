@@ -2,9 +2,7 @@ import {
     START_LISTENING_LOOKUP_COLLECTION,
     LOAD_LOOKUP_COLLECTION_CHANGE,
     LOAD_LOOKUP_COLLECTION_ERROR,
-    LOAD_LOOKUP_COLLECTION_VALUE,
 } from '../actions';
-import { findById } from '../helpers';
 
 const initialState = {};
 
@@ -20,13 +18,11 @@ function startLoading(state, { id }) {
 
 function loadCollectionChange(state, { id, options }) {
     if (options) {
-        const { value } = state[id];
         return {
             ...state,
             [id]: {
                 ...state[id],
                 options,
-                value: value ? findById(options, value.id) : null,
             },
         };
     }
@@ -43,16 +39,6 @@ function loadError(state, { id, error }) {
     };
 }
 
-function loadValue(state, { id, value }) {
-    return {
-        ...state,
-        [id]: {
-            ...state[id],
-            value,
-        },
-    };
-}
-
 export default function lookupReducer(state = initialState, action) {
     switch (action.type) {
         case START_LISTENING_LOOKUP_COLLECTION:
@@ -63,9 +49,6 @@ export default function lookupReducer(state = initialState, action) {
 
         case LOAD_LOOKUP_COLLECTION_ERROR:
             return loadError(state, action);
-
-        case LOAD_LOOKUP_COLLECTION_VALUE:
-            return loadValue(state, action);
 
         default:
             return state;
