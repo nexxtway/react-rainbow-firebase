@@ -24,7 +24,7 @@ export default function listenCollection(opts, onDocChange, onError) {
     return createPipe(ref, queryArray)
         .onSnapshot(snapshot => {
             if (snapshot.empty) {
-                onDocChange(null);
+                onDocChange([]);
             } else {
                 onDocChange(snapshot.docs.map(doc => ({
                     id: doc.id,
