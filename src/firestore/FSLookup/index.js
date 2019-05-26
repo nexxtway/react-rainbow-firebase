@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Lookup } from 'react-rainbow-components';
-import {
-    subscribeCollection,
-    resolveValue,
-} from './actions';
+import { subscribeCollection } from './actions';
+import fetchValue from './services/fetch-value';
 import getDocReference from '../../helpers/get-doc-reference';
 import {
     filter,
@@ -22,6 +20,7 @@ export default class FSLookup extends Component {
         const reduxStore = store.getState()[collectionRef];
         this.state = {
             options: [],
+            value: null,
         };
         this[privateOptions] = reduxStore
             ? getNormalizedOptions(reduxStore.options, optionsMapFn) : [];
@@ -31,15 +30,15 @@ export default class FSLookup extends Component {
     }
 
     componentDidMount() {
-        const { collectionRef, value } = this.props;
+        const { collectionRef } = this.props;
         store.dispatch(subscribeCollection(collectionRef));
-        store.dispatch(resolveValue(collectionRef, value));
+        this.resolveValue();
     }
 
     componentDidUpdate({ value: prevValue }) {
-        const { collectionRef, value } = this.props;
+        const { value } = this.props;
         if (value !== prevValue) {
-            store.dispatch(resolveValue(collectionRef, value));
+            this.resolveValue();
         }
     }
 
@@ -52,22 +51,28 @@ export default class FSLookup extends Component {
         this.unsubscribeFromStore = store.subscribe(() => {
             const reduxStore = store.getState()[collectionRef];
             if (reduxStore) {
-                const { options, value } = reduxStore;
+                const { options } = reduxStore;
                 if (this[privateReduxOptions] !== options) {
                     this[privateOptions] = getNormalizedOptions(options, optionsMapFn);
+                    const { value } = this.state;
+                    if (value) {
+                        this.resolveValue();
+                    }
                 }
                 this[privateReduxOptions] = options;
-                if (value) {
-                    this.setState({
-                        value: optionsMapFn(value),
-                    });
-                } else {
-                    this.setState({
-                        value: null,
-                    });
-                }
             }
         });
+    }
+
+    resolveValue() {
+        const { collectionRef, value, optionsMapFn } = this.props;
+        const { options } = store.getState()[collectionRef];
+        return fetchValue(options, value)
+            .then(fetchedValue => {
+                this.setState({
+                    value: fetchedValue ? optionsMapFn(fetchedValue) : null,
+                });
+            });
     }
 
     handleSearch(value) {
