@@ -8,6 +8,7 @@ import {
     addDocument,
     updateDocument,
     removeDocument,
+    removeDocuments,
 } from './actions';
 import hasQueryPropsChanged from './helpers/has-query-props-changed';
 import generateId from './helpers/generate-id';
@@ -36,6 +37,7 @@ export default class FSCollection extends Component {
         this.addDoc = this.addDoc.bind(this);
         this.updateDoc = this.updateDoc.bind(this);
         this.removeDoc = this.removeDoc.bind(this);
+        this.removeDocs = this.removeDocs.bind(this);
     }
 
     componentDidMount() {
@@ -99,6 +101,11 @@ export default class FSCollection extends Component {
         removeDocument(collectionRef, id);
     }
 
+    removeDocs(ids) {
+        const { collectionRef } = this.props;
+        removeDocuments(collectionRef, ids);
+    }
+
     render() {
         const {
             component: CollectionComponent,
@@ -121,7 +128,8 @@ export default class FSCollection extends Component {
                 error={error}
                 addDoc={this.addDoc}
                 updateDoc={this.updateDoc}
-                removeDoc={this.removeDoc} />
+                removeDoc={this.removeDoc}
+                removeDocs={this.removeDocs} />
         );
     }
 }
