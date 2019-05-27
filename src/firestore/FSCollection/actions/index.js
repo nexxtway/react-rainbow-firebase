@@ -10,6 +10,7 @@ import resetCollectionStore, {
 import addDocument from './add-document';
 import updateDocument from './update-document';
 import removeDocument from './remove-document';
+import removeDocuments from './remove-documents';
 
 export {
     subscribeCollection,
@@ -22,4 +23,5 @@ export {
     addDocument,
     updateDocument,
     removeDocument,
+    removeDocuments,
 };
