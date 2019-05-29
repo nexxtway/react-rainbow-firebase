@@ -1,6 +1,6 @@
 {
   "name": "react-rainbow-firebase",
-  "version": "0.1.0-canary.1",
+  "version": "0.1.0-canary.2",
   "description": "React Rainbow Firebase",
   "keywords": [
     "react",
@@ -79,7 +79,8 @@
     "firebase-tools": "^6.9.2",
     "pre-push": "^0.1.1",
     "react-rainbow-styleguide": "^1.1.0",
-    "react-styleguidist": "^7.3.9"
+    "react-styleguidist": "^7.3.9",
+    "redux-form": "^8.2.1"
   },
   "pre-push": [
     "lint",
