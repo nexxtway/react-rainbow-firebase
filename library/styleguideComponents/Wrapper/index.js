@@ -1,5 +1,9 @@
-import { Component } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { createStore, combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
+import { Provider } from 'react-redux';
 import Firebase from '../../../src/firebase';
 
 const config = {
@@ -12,6 +16,14 @@ const config = {
 };
 Firebase.initializeApp(config);
 
+
+const rootReducer = combineReducers({
+    form: formReducer,
+});
+
+const store = createStore(rootReducer);
+
+
 export default class Wrapper extends Component {
     componentDidCatch(error) {
         const { onError } = this.props;
@@ -20,7 +32,11 @@ export default class Wrapper extends Component {
 
     render() {
         const { children } = this.props;
-        return children;
+        return (
+            <Provider store={store}>
+                {children}
+            </Provider>
+        );
     }
 }
 

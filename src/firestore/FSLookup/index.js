@@ -7,13 +7,15 @@ import getDocReference from '../../helpers/get-doc-reference';
 import {
     filter,
     getNormalizedOptions,
+    getNormalizedValue,
 } from './helpers';
 import store from './store';
+import withReduxForm from '../../hocs/with-redux-form';
 
 const privateOptions = Symbol('privateOptions');
 const privateReduxOptions = Symbol('privateReduxOptions');
 
-export default class FSLookup extends Component {
+class FSLookup extends Component {
     constructor(props) {
         super(props);
         const { collectionRef, optionsMapFn } = props;
@@ -38,6 +40,9 @@ export default class FSLookup extends Component {
     componentDidUpdate({ value: prevValue }) {
         const { value } = this.props;
         if (value !== prevValue) {
+            if (value === '') {
+                this.resetOptions();
+            }
             this.resolveValue();
         }
     }
@@ -67,7 +72,7 @@ export default class FSLookup extends Component {
     resolveValue() {
         const { collectionRef, value, optionsMapFn } = this.props;
         const { options } = store.getState()[collectionRef];
-        return fetchValue(options, value)
+        return fetchValue(options, getNormalizedValue(value))
             .then(fetchedValue => {
                 this.setState({
                     value: fetchedValue ? optionsMapFn(fetchedValue) : null,
@@ -87,6 +92,12 @@ export default class FSLookup extends Component {
             return onChange(getDocReference(collectionRef, value.id));
         }
         return onChange(value);
+    }
+
+    resetOptions() {
+        this.setState({
+            options: [],
+        });
     }
 
     render() {
@@ -115,7 +126,10 @@ FSLookup.propTypes = {
     component: PropTypes.func,
     optionsMapFn: PropTypes.func,
     onChange: PropTypes.func,
-    value: PropTypes.object,
+    value: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string,
+    ]),
 };
 
 FSLookup.defaultProps = {
@@ -124,3 +138,5 @@ FSLookup.defaultProps = {
     onChange: () => {},
     value: undefined,
 };
+
+export default withReduxForm(FSLookup);
