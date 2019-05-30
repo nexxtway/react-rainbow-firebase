@@ -39,6 +39,7 @@ export default function withReduxForm(WrappedComponent) {
                 error,
                 input,
                 meta,
+                onBlur,
                 ...rest
             } = this.props;
 
@@ -46,6 +47,8 @@ export default function withReduxForm(WrappedComponent) {
                 <WrappedComponent
                     {...rest}
                     {...input}
+                    // review this since redux-form set the value typed in lookup when blur
+                    onBlur={onBlur}
                     error={this.getErrorMessage()}
                     ref={this.fieldRef}
                 />
