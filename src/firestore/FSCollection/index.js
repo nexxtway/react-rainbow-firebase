@@ -6,6 +6,7 @@ import {
     subscribeCollection,
     resetCollectionStore,
     addDocument,
+    addDocuments,
     updateDocument,
     removeDocument,
     removeDocuments,
@@ -35,6 +36,7 @@ export default class FSCollection extends Component {
         };
         this.subscribeToStore();
         this.addDoc = this.addDoc.bind(this);
+        this.addDocs = this.addDocs.bind(this);
         this.updateDoc = this.updateDoc.bind(this);
         this.removeDoc = this.removeDoc.bind(this);
         this.removeDocs = this.removeDocs.bind(this);
@@ -91,6 +93,11 @@ export default class FSCollection extends Component {
         addDocument(collectionRef, data);
     }
 
+    addDocs(data) {
+        const { collectionRef } = this.props;
+        addDocuments(collectionRef, data);
+    }
+
     updateDoc(id, data) {
         const { collectionRef } = this.props;
         updateDocument(collectionRef, id, data);
@@ -127,6 +134,7 @@ export default class FSCollection extends Component {
                 isLoading={isLoading}
                 error={error}
                 addDoc={this.addDoc}
+                addDocs={this.addDocs}
                 updateDoc={this.updateDoc}
                 removeDoc={this.removeDoc}
                 removeDocs={this.removeDocs} />

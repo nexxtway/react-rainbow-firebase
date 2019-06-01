@@ -8,6 +8,7 @@ import resetCollectionStore, {
     RESET_COLLECTION_STORE,
 } from './reset-collection-store';
 import addDocument from './add-document';
+import addDocuments from './add-documents';
 import updateDocument from './update-document';
 import removeDocument from './remove-document';
 import removeDocuments from './remove-documents';
@@ -21,6 +22,7 @@ export {
     resetCollectionStore,
     RESET_COLLECTION_STORE,
     addDocument,
+    addDocuments,
     updateDocument,
     removeDocument,
     removeDocuments,
