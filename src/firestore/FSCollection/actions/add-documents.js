@@ -14,7 +14,7 @@ export default function addDocuments(collectionRef, data) {
                 .instance
                 .firestore()
                 .collection(collectionRef)
-                .add();
+                .doc();
 
             batch.set(docRef, item);
         });
