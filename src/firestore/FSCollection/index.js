@@ -8,6 +8,7 @@ import {
     addDocument,
     addDocuments,
     updateDocument,
+    updateDocuments,
     removeDocument,
     removeDocuments,
 } from './actions';
@@ -38,6 +39,7 @@ export default class FSCollection extends Component {
         this.addDoc = this.addDoc.bind(this);
         this.addDocs = this.addDocs.bind(this);
         this.updateDoc = this.updateDoc.bind(this);
+        this.updateDocs = this.updateDocs.bind(this);
         this.removeDoc = this.removeDoc.bind(this);
         this.removeDocs = this.removeDocs.bind(this);
     }
@@ -103,6 +105,11 @@ export default class FSCollection extends Component {
         updateDocument(collectionRef, id, data);
     }
 
+    updateDocs(data) {
+        const { collectionRef } = this.props;
+        updateDocuments(collectionRef, data);
+    }
+
     removeDoc(id) {
         const { collectionRef } = this.props;
         removeDocument(collectionRef, id);
@@ -136,6 +143,7 @@ export default class FSCollection extends Component {
                 addDoc={this.addDoc}
                 addDocs={this.addDocs}
                 updateDoc={this.updateDoc}
+                updateDocs={this.updateDocs}
                 removeDoc={this.removeDoc}
                 removeDocs={this.removeDocs} />
         );
