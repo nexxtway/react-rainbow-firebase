@@ -1,8 +1,10 @@
 import FirebaseApp from '../firebase';
 
-export default function getDocReference(collectionRef, id) {
-    return FirebaseApp.instance
-        .firestore()
-        .collection(collectionRef)
-        .doc(id);
+export default function getDocReference(docRef) {
+    if (typeof docRef === 'string') {
+        return FirebaseApp.instance
+            .firestore()
+            .doc(docRef);
+    }
+    return docRef;
 }

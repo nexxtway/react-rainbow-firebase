@@ -105,9 +105,9 @@ export default class FSCollection extends Component {
         updateDocument(collectionRef, id, data);
     }
 
-    updateDocs(data) {
+    updateDocs(docs) {
         const { collectionRef } = this.props;
-        updateDocuments(collectionRef, data);
+        updateDocuments(collectionRef, docs);
     }
 
     removeDoc(id) {
@@ -115,9 +115,9 @@ export default class FSCollection extends Component {
         removeDocument(collectionRef, id);
     }
 
-    removeDocs(ids) {
+    removeDocs(docs) {
         const { collectionRef } = this.props;
-        removeDocuments(collectionRef, ids);
+        removeDocuments(collectionRef, docs);
     }
 
     render() {

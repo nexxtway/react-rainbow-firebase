@@ -6,7 +6,7 @@ import {
 
 const initialState = {};
 
-function startLoading(state, { id }) {
+function startListening(state, { id }) {
     return {
         ...state,
         [id]: {
@@ -42,7 +42,7 @@ function loadError(state, { id, error }) {
 export default function lookupReducer(state = initialState, action) {
     switch (action.type) {
         case START_LISTENING_LOOKUP_COLLECTION:
-            return startLoading(state, action);
+            return startListening(state, action);
 
         case LOAD_LOOKUP_COLLECTION_CHANGE:
             return loadCollectionChange(state, action);

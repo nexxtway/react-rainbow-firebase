@@ -1,12 +1,12 @@
 import FirebaseApp from '../../../firebase';
 
-export default function updateDocuments(collectionRef, payload) {
+export default function updateDocuments(collectionRef, docs) {
     const batch = FirebaseApp.instance.firestore().batch();
 
     let start = 0;
     let end = 500;
 
-    let dataChunk = payload.slice(start, end);
+    let dataChunk = docs.slice(start, end);
 
     while (dataChunk.length) {
         dataChunk.forEach(({ id, data }) => {
@@ -21,6 +21,6 @@ export default function updateDocuments(collectionRef, payload) {
         batch.commit();
         start = end;
         end += 500;
-        dataChunk = payload.slice(start, end);
+        dataChunk = docs.slice(start, end);
     }
 }
