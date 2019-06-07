@@ -1,9 +1,11 @@
 import FirebaseApp from './firebase';
 import FSCollection from './firestore/FSCollection';
 import FSLookup from './firestore/FSLookup';
+import FSDoc from './firestore/FSDoc';
 
 export {
     FirebaseApp,
     FSCollection,
     FSLookup,
+    FSDoc,
 };
