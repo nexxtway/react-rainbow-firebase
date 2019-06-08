@@ -6,6 +6,7 @@ import { isListening } from '../reducer/getters';
 export const START_LOADING_DOC = 'START_LOADING_DOC';
 export const LOAD_DOC = 'LOAD_DOC';
 export const DOC_ERROR = 'DOC_ERROR';
+export const LOAD_DOC_UNSUBSCRIBE_FUNCTION = 'LOAD_DOC_UNSUBSCRIBE_FUNCTION';
 
 function getDocOnce(docRef, id) {
     return dispatch => {
@@ -37,7 +38,7 @@ function startListenDoc(docRef, id) {
                 type: START_LOADING_DOC,
                 id,
             });
-            listenDoc(docRef, doc => {
+            const unsubscribe = listenDoc(docRef, doc => {
                 dispatch({
                     type: LOAD_DOC,
                     id,
@@ -50,6 +51,11 @@ function startListenDoc(docRef, id) {
                     id,
                     error,
                 });
+            });
+            dispatch({
+                type: LOAD_DOC_UNSUBSCRIBE_FUNCTION,
+                id,
+                unsubscribe,
             });
         }
     };

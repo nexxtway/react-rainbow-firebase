@@ -2,6 +2,7 @@ import {
     START_LOADING_DOC,
     LOAD_DOC,
     DOC_ERROR,
+    LOAD_DOC_UNSUBSCRIBE_FUNCTION,
     RESET_DOC_STORE,
 } from '../actions';
 
@@ -40,6 +41,16 @@ function loadError(state, { id, error }) {
     };
 }
 
+function loadDocUnsubscribe(state, { id, unsubscribe }) {
+    return {
+        ...state,
+        [id]: {
+            ...state[id],
+            unsubscribe,
+        },
+    };
+}
+
 function resetDocStore(state, { id }) {
     return {
         ...state,
@@ -57,6 +68,9 @@ export default function docReducer(state = initialState, action) {
 
         case DOC_ERROR:
             return loadError(state, action);
+
+        case LOAD_DOC_UNSUBSCRIBE_FUNCTION:
+            return loadDocUnsubscribe(state, action);
 
         case RESET_DOC_STORE:
             return resetDocStore(state, action);

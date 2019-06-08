@@ -28,6 +28,23 @@ export default class FSDoc extends Component {
         store.dispatch(subscribeDoc(ref, once));
     }
 
+    componentDidUpdate({ docRef: prevDocRef }) {
+        const { docRef, once } = this.props;
+        if (prevDocRef !== docRef) {
+            const { unsubscribe } = this.state;
+            if (unsubscribe) {
+                unsubscribe();
+            }
+            const prevId = getDocReference(prevDocRef).path;
+            store.dispatch(resetDocStore(prevId));
+            this[privateUnsubscribeFromStore]();
+
+            this.subscribeToStore();
+            const ref = getDocReference(docRef);
+            store.dispatch(subscribeDoc(ref, once));
+        }
+    }
+
     componentWillUnmount() {
         const { docRef, once } = this.props;
         if (once) {
