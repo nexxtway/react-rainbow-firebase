@@ -68,10 +68,12 @@ export default class FSLookupComponent extends Component {
     handleChange(value) {
         const { onChange, collectionRef } = this.props;
         if (value) {
-            const docRef = `${collectionRef}/${value.id}`;
+            const { id, data } = value;
+            const docRef = `${collectionRef}/${id}`;
             return onChange({
                 ref: getDocReference(docRef),
-                data: value.data,
+                id,
+                data,
             });
         }
         return onChange(value);

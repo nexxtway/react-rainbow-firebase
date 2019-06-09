@@ -28,6 +28,7 @@ Example without optionsMapFn:
 
     initialState = { value: {
         ref: getDocReference('users/5Bfk11EuAs05myqnMfaq'),
+        id: '5Bfk11EuAs05myqnMfaq',
         data: {
             firstName: 'John Doe',
         },
