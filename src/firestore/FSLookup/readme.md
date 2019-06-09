@@ -26,7 +26,12 @@ Example without optionsMapFn:
 
     const getDocReference = require('../../helpers/get-doc-reference').default;
 
-    initialState = { value: getDocReference('users/5Bfk11EuAs05myqnMfaq') };
+    initialState = { value: {
+        ref: getDocReference('users/5Bfk11EuAs05myqnMfaq'),
+        data: {
+            firstName: 'John Doe',
+        },
+    }};
 
     <FSLookup
         label="Find user"

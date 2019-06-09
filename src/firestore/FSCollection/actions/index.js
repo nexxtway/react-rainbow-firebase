@@ -1,11 +1,11 @@
 import subscribeCollection, {
-    START_LOADING_COLLECTION,
-    LOAD_COLLECTION_CHANGE,
-    COLLECTION_ERROR,
-    LOAD_UNSUBSCRIBE_FUNCTION,
+    START_LOADING,
+    COLLECTION_DATA_CHANGED,
+    COLLECTION_LOAD_ERROR,
+    COLLECTION_UNSUBSCRIBE_FUNCTION,
 } from './subscribe-collection';
 import resetCollectionStore, {
-    RESET_COLLECTION_STORE,
+    RESET_COLLECTION,
 } from './reset-collection-store';
 import addDocument from './add-document';
 import addDocuments from './add-documents';
@@ -16,12 +16,12 @@ import removeDocuments from './remove-documents';
 
 export {
     subscribeCollection,
-    START_LOADING_COLLECTION,
-    LOAD_COLLECTION_CHANGE,
-    COLLECTION_ERROR,
-    LOAD_UNSUBSCRIBE_FUNCTION,
+    START_LOADING,
+    COLLECTION_DATA_CHANGED,
+    COLLECTION_LOAD_ERROR,
+    COLLECTION_UNSUBSCRIBE_FUNCTION,
     resetCollectionStore,
-    RESET_COLLECTION_STORE,
+    RESET_COLLECTION,
     addDocument,
     addDocuments,
     updateDocument,

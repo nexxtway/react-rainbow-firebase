@@ -1,34 +1,30 @@
 /* eslint-disable no-console */
 import listenCollection from '../services/listen-collection';
 
-export const START_LOADING_COLLECTION = 'START_LOADING_COLLECTION';
-export const LOAD_COLLECTION_CHANGE = 'LOAD_COLLECTION_CHANGE';
-export const COLLECTION_ERROR = 'COLLECTION_ERROR';
-export const LOAD_UNSUBSCRIBE_FUNCTION = 'LOAD_UNSUBSCRIBE_FUNCTION';
+export const START_LOADING = 'START_LOADING';
+export const COLLECTION_DATA_CHANGED = 'COLLECTION_DATA_CHANGED';
+export const COLLECTION_LOAD_ERROR = 'COLLECTION_LOAD_ERROR';
+export const COLLECTION_UNSUBSCRIBE_FUNCTION = 'COLLECTION_UNSUBSCRIBE_FUNCTION';
 
-export default function subscribeCollection(opts, id) {
+export default function subscribeCollection(opts) {
     return dispatch => {
         dispatch({
-            type: START_LOADING_COLLECTION,
-            id,
+            type: START_LOADING,
         });
         const unsubscribe = listenCollection(opts, data => {
             dispatch({
-                type: LOAD_COLLECTION_CHANGE,
-                id,
+                type: COLLECTION_DATA_CHANGED,
                 data,
             });
         }, error => {
             console.log(error.message);
             dispatch({
-                type: COLLECTION_ERROR,
-                id,
+                type: COLLECTION_LOAD_ERROR,
                 error,
             });
         });
         dispatch({
-            type: LOAD_UNSUBSCRIBE_FUNCTION,
-            id,
+            type: COLLECTION_UNSUBSCRIBE_FUNCTION,
             unsubscribe,
         });
     };

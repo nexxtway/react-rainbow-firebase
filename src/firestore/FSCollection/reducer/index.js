@@ -1,78 +1,64 @@
 import {
-    START_LOADING_COLLECTION,
-    LOAD_COLLECTION_CHANGE,
-    COLLECTION_ERROR,
-    LOAD_UNSUBSCRIBE_FUNCTION,
-    RESET_COLLECTION_STORE,
+    START_LOADING,
+    COLLECTION_DATA_CHANGED,
+    COLLECTION_LOAD_ERROR,
+    COLLECTION_UNSUBSCRIBE_FUNCTION,
+    RESET_COLLECTION,
 } from '../actions';
 
-const initialState = {};
+const initialState = {
+    data: [],
+    isLoading: false,
+    isListening: false,
+};
 
-function startLoading(state, { id }) {
+function startLoading(state) {
     return {
         ...state,
-        [id]: {
-            ...state[id],
-            isLoading: true,
-        },
+        isLoading: true,
+        isListening: true,
     };
 }
 
-function loadCollectionChange(state, { id, data }) {
+function loadCollectionChange(state, { data }) {
     return {
         ...state,
-        [id]: {
-            ...state[id],
-            isLoading: false,
-            data,
-        },
+        isLoading: false,
+        data,
     };
 }
 
-function collectionError(state, { id, error }) {
+function collectionError(state, { error }) {
     return {
         ...state,
-        [id]: {
-            ...state[id],
-            isLoading: false,
-            error,
-        },
+        isLoading: false,
+        error,
     };
 }
 
-function loadUnsubscribeFunction(state, { id, unsubscribe }) {
+function loadUnsubscribeFunction(state, { unsubscribe }) {
     return {
         ...state,
-        [id]: {
-            ...state[id],
-            unsubscribe,
-        },
-    };
-}
-
-function resetCollectionStore(state, { id }) {
-    return {
-        ...state,
-        [id]: undefined,
+        unsubscribe,
     };
 }
 
 export default function collectionReducer(state = initialState, action) {
     switch (action.type) {
-        case START_LOADING_COLLECTION:
+        case START_LOADING:
             return startLoading(state, action);
 
-        case LOAD_COLLECTION_CHANGE:
+        case COLLECTION_DATA_CHANGED:
             return loadCollectionChange(state, action);
 
-        case COLLECTION_ERROR:
+        case COLLECTION_LOAD_ERROR:
             return collectionError(state, action);
 
-        case LOAD_UNSUBSCRIBE_FUNCTION:
+        case COLLECTION_UNSUBSCRIBE_FUNCTION:
             return loadUnsubscribeFunction(state, action);
 
-        case RESET_COLLECTION_STORE:
-            return resetCollectionStore(state, action);
+        case RESET_COLLECTION:
+            return initialState;
 
         default:
             return state;

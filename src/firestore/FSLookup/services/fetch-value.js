@@ -4,13 +4,13 @@ import { findById } from '../helpers';
 export default function fetchValue(options, value) {
     return new Promise((resolve, reject) => {
         if (value) {
-            const option = findById(options, value.id);
+            const option = findById(options, value.ref.id);
             if (option) {
                 return resolve(option);
             }
             return FirebaseApp.instance
                 .firestore()
-                .doc(value.path)
+                .doc(value.ref.path)
                 .get()
                 .then(doc => {
                     if (doc.exists) {

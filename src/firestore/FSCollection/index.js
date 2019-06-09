@@ -14,7 +14,7 @@ import {
 } from './actions';
 import hasQueryPropsChanged from './helpers/has-query-props-changed';
 import generateId from './helpers/generate-id';
-import store from './store';
+import { create } from './store';
 
 function pickProps(props) {
     return pick(props, [
@@ -31,10 +31,11 @@ function pickProps(props) {
 export default class FSCollection extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            data: [],
-            isLoading: false,
-        };
+        const queryProps = pickProps(props);
+        const id = generateId(queryProps);
+        const isSubscribeOnce = props.cacheStrategy === 'subscribeOnce';
+        this.store = create(id, isSubscribeOnce);
+        this.state = this.store.getState();
         this.subscribeToStore();
         this.addDoc = this.addDoc.bind(this);
         this.addDocs = this.addDocs.bind(this);
@@ -46,42 +47,41 @@ export default class FSCollection extends Component {
 
     componentDidMount() {
         const queryProps = pickProps(this.props);
-        const id = generateId(queryProps);
-        store.dispatch(subscribeCollection(queryProps, id));
+        const { isListening } = this.state;
+        if (!isListening) {
+            this.store.dispatch(subscribeCollection(queryProps));
+        }
     }
 
     componentDidUpdate(prevProps) {
         const prevQueryProps = pickProps(prevProps);
         const queryProps = pickProps(this.props);
         if (hasQueryPropsChanged(prevQueryProps, queryProps)) {
-            this.resetQuery(prevQueryProps, queryProps);
+            this.resetQuery();
         }
     }
 
     componentWillUnmount() {
         const { unsubscribe } = this.state;
-        const queryProps = pickProps(this.props);
-        const id = generateId(queryProps);
-        unsubscribe();
-        store.dispatch(resetCollectionStore(id));
+        const { cacheStrategy } = this.props;
+        const isSubscribeOnce = cacheStrategy === 'subscribeOnce';
+        if (!isSubscribeOnce) {
+            unsubscribe();
+        }
         this.unsubscribeFromStore();
     }
 
-    resetQuery(prevQueryProps, nextQueryProps) {
+    resetQuery() {
+        const queryProps = pickProps(this.props);
         const { unsubscribe } = this.state;
-        const nextId = generateId(nextQueryProps);
-        const prevId = generateId(prevQueryProps);
         unsubscribe();
-        store.dispatch(resetCollectionStore(prevId));
-        this.unsubscribeFromStore();
-        this.subscribeToStore();
-        store.dispatch(subscribeCollection(nextQueryProps, nextId));
+        this.store.dispatch(resetCollectionStore());
+        this.store.dispatch(subscribeCollection(queryProps));
     }
 
     subscribeToStore() {
-        const id = generateId(pickProps(this.props));
-        this.unsubscribeFromStore = store.subscribe(() => {
-            const state = store.getState()[id];
+        this.unsubscribeFromStore = this.store.subscribe(() => {
+            const state = this.store.getState();
             if (state) {
                 this.setState(state);
             } else {
@@ -130,6 +130,7 @@ export default class FSCollection extends Component {
             startAfter,
             endAt,
             endBefore,
+            cacheStrategy,
             ...rest
         } = this.props;
         const { data, isLoading, error } = this.state;
@@ -137,6 +138,7 @@ export default class FSCollection extends Component {
         return (
             <CollectionComponent
                 {...rest}
+                collectionRef={collectionRef}
                 data={data}
                 isLoading={isLoading}
                 error={error}
@@ -175,6 +177,9 @@ FSCollection.propTypes = {
         PropTypes.object,
         PropTypes.array,
     ]),
+    cacheStrategy: PropTypes.oneOf([
+        'subscribeOnce',
+    ]),
 };
 
 FSCollection.defaultProps = {
@@ -186,4 +191,5 @@ FSCollection.defaultProps = {
     startAfter: undefined,
     endAt: undefined,
     endBefore: undefined,
+    cacheStrategy: undefined,
 };

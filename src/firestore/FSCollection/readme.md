@@ -46,4 +46,4 @@ Table example:
         );
     }
 
-    <FSCollection collectionRef="users" component={CollectionTable} />
+    <FSCollection collectionRef="users" component={CollectionTable} cacheStrategy="subscribeOnce" />
