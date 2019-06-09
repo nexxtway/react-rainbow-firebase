@@ -22,7 +22,7 @@ Patients example:
         onChange={(value) => setState({ value })} />
 
 
-Example without optionsMapFn:
+Example with initial value:
 
     const getDocReference = require('../../helpers/get-doc-reference').default;
 
@@ -30,8 +30,25 @@ Example without optionsMapFn:
         ref: getDocReference('users/5Bfk11EuAs05myqnMfaq'),
         id: '5Bfk11EuAs05myqnMfaq',
         data: {
-            firstName: 'John Doe',
+            firstName: 'Pedro',
+            lastName: 'Sanchez',
+            phone: '765 1245 6543',
+            type: 'regular',
         },
+    }};
+
+    <FSLookup
+        label="Find user"
+        collectionRef="users"
+        value={state.value}
+        onChange={(value) => setState({ value })} />
+
+Example with only ref as initial value:
+
+    const getDocReference = require('../../helpers/get-doc-reference').default;
+
+    initialState = { value: {
+        ref: getDocReference('users/5Bfk11EuAs05myqnMfaq'),
     }};
 
     <FSLookup

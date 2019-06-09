@@ -1,12 +1,14 @@
 import FirebaseApp from '../../../firebase';
-import { findById } from '../helpers';
 
 export default function fetchValue(options, value) {
     return new Promise((resolve, reject) => {
         if (value) {
-            const option = findById(options, value.ref.id);
-            if (option) {
-                return resolve(option);
+            const { id, data } = value;
+            if (id && data) {
+                return resolve({
+                    id,
+                    data,
+                });
             }
             return FirebaseApp.instance
                 .firestore()
