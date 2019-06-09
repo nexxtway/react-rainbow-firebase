@@ -29,6 +29,28 @@ class FSLookup extends Component {
 FSLookup.propTypes = {
     collectionRef: PropTypes.string.isRequired,
     component: PropTypes.func,
+    query: PropTypes.array,
+    limit: PropTypes.number,
+    startAt: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+        PropTypes.array,
+    ]),
+    startAfter: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+        PropTypes.array,
+    ]),
+    endAt: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+        PropTypes.array,
+    ]),
+    endBefore: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object,
+        PropTypes.array,
+    ]),
     optionsMapFn: PropTypes.func,
     onChange: PropTypes.func,
     value: PropTypes.oneOfType([
@@ -43,6 +65,12 @@ FSLookup.propTypes = {
 
 FSLookup.defaultProps = {
     component: Lookup,
+    query: [],
+    limit: undefined,
+    startAt: undefined,
+    startAfter: undefined,
+    endAt: undefined,
+    endBefore: undefined,
     optionsMapFn: doc => ({ label: doc.id }),
     onChange: () => {},
     value: undefined,
