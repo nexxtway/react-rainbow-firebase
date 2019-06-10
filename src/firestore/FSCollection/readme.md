@@ -47,3 +47,7 @@ Table example:
     }
 
     <FSCollection collectionRef="users" component={CollectionTable} cacheStrategy="subscribeOnce" />
+
+Subcollection example:
+
+    <FSCollection collectionRef="users/5Bfk11EuAs05myqnMfaq/friends" />
