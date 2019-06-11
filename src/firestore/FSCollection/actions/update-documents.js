@@ -10,7 +10,7 @@ function batchUpdate(collectionRef, docs) {
             .collection(collectionRef)
             .doc(id);
 
-        batch.set(docRef, data);
+        batch.update(docRef, data);
     });
     return batch.commit();
 }
