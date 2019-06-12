@@ -5,13 +5,15 @@ import pick from 'lodash/pick';
 import {
     subscribeCollection,
     resetCollectionStore,
+} from './actions';
+import {
     addDocument,
     addDocuments,
     updateDocument,
     updateDocuments,
     removeDocument,
     removeDocuments,
-} from './actions';
+} from './services';
 import hasQueryPropsChanged from './helpers/has-query-props-changed';
 import generateId from './helpers/generate-id';
 import { create } from './store';
