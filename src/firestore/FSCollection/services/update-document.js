@@ -1,7 +1,7 @@
 import FirebaseApp from '../../../firebase';
 
 export default function updateDocument(collectionRef, id, data) {
-    FirebaseApp
+    return FirebaseApp
         .instance
         .firestore()
         .collection(collectionRef)

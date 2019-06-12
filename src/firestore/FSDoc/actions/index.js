@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
-import listenDoc from '../services/listen-doc';
-import fetchDoc from '../services/fetch-doc';
+import { listenDoc, fetchDoc } from '../services';
 import { isListening } from '../reducer/getters';
 
 export const START_LOADING_DOC = 'START_LOADING_DOC';

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactJson from 'react-json-view';
 import getDocReference from '../../helpers/get-doc-reference';
 import { subscribeDoc, resetDocStore } from './actions';
+import { updateDocument, removeDocument } from './services';
 import store from './store';
 
 const privateUnsubscribeFromStore = Symbol('privateUnsubscribeFromStore');
@@ -20,6 +21,8 @@ export default class FSDoc extends Component {
         const id = getDocReference(props.docRef).path;
         this.state = getInitialState(id);
         this.subscribeToStore();
+        this.updateDoc = this.updateDoc.bind(this);
+        this.removeDoc = this.removeDoc.bind(this);
     }
 
     componentDidMount() {
@@ -65,6 +68,18 @@ export default class FSDoc extends Component {
         });
     }
 
+    updateDoc(data) {
+        const { docRef } = this.props;
+        const ref = getDocReference(docRef);
+        updateDocument(ref, data);
+    }
+
+    removeDoc() {
+        const { docRef } = this.props;
+        const ref = getDocReference(docRef);
+        removeDocument(ref);
+    }
+
     render() {
         const {
             component: DocComponent,
@@ -79,7 +94,9 @@ export default class FSDoc extends Component {
                 {...rest}
                 doc={doc}
                 isLoading={isLoading}
-                error={error} />
+                error={error}
+                updateDoc={this.updateDoc}
+                removeDoc={this.removeDoc} />
         );
     }
 }

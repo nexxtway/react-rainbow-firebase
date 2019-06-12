@@ -1,7 +1,7 @@
 import FirebaseApp from '../../../firebase';
 
 export default function removeDocument(collectionRef, id) {
-    FirebaseApp
+    return FirebaseApp
         .instance
         .firestore()
         .collection(collectionRef)
