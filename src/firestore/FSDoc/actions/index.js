@@ -7,53 +7,46 @@ export const LOAD_DOC = 'LOAD_DOC';
 export const DOC_ERROR = 'DOC_ERROR';
 export const LOAD_DOC_UNSUBSCRIBE_FUNCTION = 'LOAD_DOC_UNSUBSCRIBE_FUNCTION';
 
-function getDocOnce(docRef, id) {
+function getDocOnce(docRef) {
     return dispatch => {
         dispatch({
             type: START_LOADING_DOC,
-            id,
         });
         return fetchDoc(docRef)
             .then(doc => dispatch({
                 type: LOAD_DOC,
-                id,
                 doc,
             }))
             .catch(error => {
                 console.log(error.message);
                 dispatch({
                     type: DOC_ERROR,
-                    id,
                     error,
                 });
             });
     };
 }
 
-function startListenDoc(docRef, id) {
+function startListenDoc(docRef) {
     return (dispatch, getState) => {
-        if (!isListening(getState(), id)) {
+        if (!isListening(getState())) {
             dispatch({
                 type: START_LOADING_DOC,
-                id,
             });
             const unsubscribe = listenDoc(docRef, doc => {
                 dispatch({
                     type: LOAD_DOC,
-                    id,
                     doc,
                 });
             }, error => {
                 console.log(error.message);
                 dispatch({
                     type: DOC_ERROR,
-                    id,
                     error,
                 });
             });
             dispatch({
                 type: LOAD_DOC_UNSUBSCRIBE_FUNCTION,
-                id,
                 unsubscribe,
             });
         }
@@ -62,18 +55,16 @@ function startListenDoc(docRef, id) {
 
 export function subscribeDoc(docRef, once) {
     return dispatch => {
-        const id = docRef.path;
         if (once) {
-            return dispatch(getDocOnce(docRef, id));
+            return dispatch(getDocOnce(docRef));
         }
-        return dispatch(startListenDoc(docRef, id));
+        return dispatch(startListenDoc(docRef));
     };
 }
 
 export const RESET_DOC_STORE = 'RESET_DOC_STORE';
-export function resetDocStore(id) {
+export function resetDocStore() {
     return {
         type: RESET_DOC_STORE,
-        id,
     };
 }

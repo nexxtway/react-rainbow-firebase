@@ -6,55 +6,40 @@ import {
     RESET_DOC_STORE,
 } from '../actions';
 
-const initialState = {};
+const initialState = {
+    doc: undefined,
+    isLoading: true,
+    isListening: false,
+};
 
-function startLoading(state, { id }) {
+function startLoading(state) {
     return {
         ...state,
-        [id]: {
-            ...state[id],
-            isLoading: true,
-            isListening: true,
-        },
+        isLoading: true,
+        isListening: true,
     };
 }
 
-function loadData(state, { id, doc }) {
+function loadDoc(state, { doc }) {
     return {
         ...state,
-        [id]: {
-            ...state[id],
-            isLoading: false,
-            doc,
-        },
+        isLoading: false,
+        doc,
     };
 }
 
-function loadError(state, { id, error }) {
+function loadError(state, { error }) {
     return {
         ...state,
-        [id]: {
-            ...state[id],
-            isLoading: false,
-            error,
-        },
+        isLoading: false,
+        error,
     };
 }
 
-function loadDocUnsubscribe(state, { id, unsubscribe }) {
+function loadDocUnsubscribe(state, { unsubscribe }) {
     return {
         ...state,
-        [id]: {
-            ...state[id],
-            unsubscribe,
-        },
-    };
-}
-
-function resetDocStore(state, { id }) {
-    return {
-        ...state,
-        [id]: undefined,
+        unsubscribe,
     };
 }
 
@@ -64,7 +49,7 @@ export default function docReducer(state = initialState, action) {
             return startLoading(state, action);
 
         case LOAD_DOC:
-            return loadData(state, action);
+            return loadDoc(state, action);
 
         case DOC_ERROR:
             return loadError(state, action);
@@ -73,7 +58,7 @@ export default function docReducer(state = initialState, action) {
             return loadDocUnsubscribe(state, action);
 
         case RESET_DOC_STORE:
-            return resetDocStore(state, action);
+            return initialState;
 
         default:
             return state;

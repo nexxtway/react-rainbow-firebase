@@ -4,22 +4,16 @@ import ReactJson from 'react-json-view';
 import getDocReference from '../../helpers/get-doc-reference';
 import { subscribeDoc, resetDocStore } from './actions';
 import { updateDocument, removeDocument } from './services';
-import store from './store';
+import { create } from './store';
 
 const privateUnsubscribeFromStore = Symbol('privateUnsubscribeFromStore');
-
-function getInitialState(id) {
-    const state = store.getState()[id];
-    return state || {
-        isLoading: false,
-    };
-}
 
 export default class FSDoc extends Component {
     constructor(props) {
         super(props);
         const id = getDocReference(props.docRef).path;
-        this.state = getInitialState(id);
+        this.store = create(id, props.once);
+        this.state = this.store.getState();
         this.subscribeToStore();
         this.updateDoc = this.updateDoc.bind(this);
         this.removeDoc = this.removeDoc.bind(this);
@@ -28,7 +22,7 @@ export default class FSDoc extends Component {
     componentDidMount() {
         const { docRef, once } = this.props;
         const ref = getDocReference(docRef);
-        store.dispatch(subscribeDoc(ref, once));
+        this.store.dispatch(subscribeDoc(ref, once));
     }
 
     componentDidUpdate({ docRef: prevDocRef }) {
@@ -38,30 +32,19 @@ export default class FSDoc extends Component {
             if (unsubscribe) {
                 unsubscribe();
             }
-            const prevId = getDocReference(prevDocRef).path;
-            store.dispatch(resetDocStore(prevId));
-            this[privateUnsubscribeFromStore]();
-
-            this.subscribeToStore();
+            this.store.dispatch(resetDocStore());
             const ref = getDocReference(docRef);
-            store.dispatch(subscribeDoc(ref, once));
+            this.store.dispatch(subscribeDoc(ref, once));
         }
     }
 
     componentWillUnmount() {
-        const { docRef, once } = this.props;
-        if (once) {
-            const id = getDocReference(docRef).path;
-            store.dispatch(resetDocStore(id));
-        }
         this[privateUnsubscribeFromStore]();
     }
 
     subscribeToStore() {
-        const { docRef } = this.props;
-        const id = getDocReference(docRef).path;
-        this[privateUnsubscribeFromStore] = store.subscribe(() => {
-            const state = store.getState()[id];
+        this[privateUnsubscribeFromStore] = this.store.subscribe(() => {
+            const state = this.store.getState();
             if (state) {
                 this.setState(state);
             }
@@ -107,6 +90,7 @@ FSDoc.propTypes = {
         PropTypes.string,
     ]).isRequired,
     component: PropTypes.func,
+    /** If set to true get the doc data once and does not stay listening. */
     once: PropTypes.bool,
 };
 

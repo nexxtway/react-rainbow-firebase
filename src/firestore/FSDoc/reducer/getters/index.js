@@ -1,4 +1,4 @@
 /* eslint-disable */
-export function isListening(state, id) {
-    return !!(state[id] && state[id].isListening);
+export function isListening(state) {
+    return state.isListening;
 }

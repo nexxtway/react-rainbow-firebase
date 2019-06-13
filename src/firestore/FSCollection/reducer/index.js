@@ -8,7 +8,7 @@ import {
 
 const initialState = {
     data: [],
-    isLoading: false,
+    isLoading: true,
     isListening: false,
 };
 

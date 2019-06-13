@@ -14,13 +14,16 @@ Example with once:
         justifyContent: 'center',
     };
 
-    function RenderComponent({ doc, isLoading }) {
+    function RenderComponent({ doc, isLoading, error }) {
         if (isLoading) {
             return <Spinner />
         }
-        if (!isLoading && doc) {
+        if (doc) {
             const { firstName, lastName } = doc.data;
             return <Badge label={`${firstName} ${lastName}`} />;
+        }
+        if (error) {
+            return <span>{error.message}</span>
         }
         return null;
     }
