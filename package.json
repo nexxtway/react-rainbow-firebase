@@ -1,6 +1,6 @@
 {
   "name": "react-rainbow-firebase",
-  "version": "0.1.0-canary.15",
+  "version": "0.1.0-canary.16",
   "description": "React Rainbow Firebase",
   "keywords": [
     "react",
@@ -25,7 +25,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-json-view": "^1.19.1",
-    "react-rainbow-components": "1.3.1-canary.66f8956",
+    "react-rainbow-components": "1.3.1-canary.591f330",
     "react-redux": "^7.0.3",
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
