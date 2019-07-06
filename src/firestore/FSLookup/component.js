@@ -16,7 +16,7 @@ export default class FSLookupComponent extends Component {
         super(props);
         const { data, optionsMapFn } = props;
         this.state = {
-            options: [],
+            options: null,
             value: null,
         };
         this[privateOptions] = getNormalizedOptions(data, optionsMapFn);
@@ -61,8 +61,9 @@ export default class FSLookupComponent extends Component {
     }
 
     handleSearch(value) {
+        const filteredOptions = filter(value, this[privateOptions]);
         this.setState({
-            options: filter(value, this[privateOptions]),
+            options: filteredOptions.length ? filteredOptions : null,
         });
     }
 
@@ -82,7 +83,7 @@ export default class FSLookupComponent extends Component {
 
     resetOptions() {
         this.setState({
-            options: [],
+            options: null,
         });
     }
 
@@ -113,6 +114,7 @@ export default class FSLookupComponent extends Component {
                 onChange={this.handleChange}
                 onSearch={this.handleSearch}
                 error={lookupError}
+                debounce
             />
         );
     }
