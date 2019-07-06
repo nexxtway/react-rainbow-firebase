@@ -6,6 +6,7 @@ import {
     filter,
     getNormalizedOptions,
     getNormalizedValue,
+    getValue,
 } from './helpers';
 
 const privateOptions = Symbol('privateOptions');
@@ -54,7 +55,7 @@ export default class FSLookupComponent extends Component {
         return fetchValue(options, getNormalizedValue(value))
             .then(fetchedValue => {
                 this.setState({
-                    value: fetchedValue ? optionsMapFn(fetchedValue) : null,
+                    value: fetchedValue ? getValue(optionsMapFn(fetchedValue)) : null,
                 });
             });
     }

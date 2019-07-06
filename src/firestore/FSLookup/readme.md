@@ -115,3 +115,17 @@ Example with redux form:
     })(SimpleForm);
 
     <Form onSubmit={(values) => console.log(values)} />
+
+
+Selected label example:
+
+    <FSLookup
+        label="Find user"
+        collectionRef="users"
+        optionsMapFn={(user) => ({
+            selectedLabel: `${user.data.firstName}, ${user.data.type}`,
+            label: `${user.data.firstName} ${user.data.lastName}`,
+            description: user.data.type,
+        })}
+        value={state.value}
+        onChange={(value) => setState({ value })} />
