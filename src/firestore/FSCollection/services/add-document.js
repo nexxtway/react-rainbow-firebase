@@ -5,5 +5,6 @@ export default function addDocument(collectionRef, data) {
         .instance
         .firestore()
         .collection(collectionRef)
-        .add(data);
+        .add(data)
+        .then(doc => doc.id);
 }

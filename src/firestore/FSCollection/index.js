@@ -94,7 +94,7 @@ export default class FSCollection extends Component {
 
     addDoc(data) {
         const { collectionRef } = this.props;
-        addDocument(collectionRef, data);
+        return addDocument(collectionRef, data);
     }
 
     addDocs(data) {
