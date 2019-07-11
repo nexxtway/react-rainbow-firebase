@@ -99,27 +99,27 @@ export default class FSCollection extends Component {
 
     addDocs(data) {
         const { collectionRef } = this.props;
-        addDocuments(collectionRef, data);
+        return addDocuments(collectionRef, data);
     }
 
     updateDoc(id, data) {
         const { collectionRef } = this.props;
-        updateDocument(collectionRef, id, data);
+        return updateDocument(collectionRef, id, data);
     }
 
     updateDocs(docs) {
         const { collectionRef } = this.props;
-        updateDocuments(collectionRef, docs);
+        return updateDocuments(collectionRef, docs);
     }
 
     removeDoc(id) {
         const { collectionRef } = this.props;
-        removeDocument(collectionRef, id);
+        return removeDocument(collectionRef, id);
     }
 
     removeDocs(docs) {
         const { collectionRef } = this.props;
-        removeDocuments(collectionRef, docs);
+        return removeDocuments(collectionRef, docs);
     }
 
     render() {
