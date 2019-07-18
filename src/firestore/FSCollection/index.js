@@ -48,10 +48,11 @@ export default class FSCollection extends Component {
     }
 
     componentDidMount() {
+        const { onError } = this.props;
         const queryProps = pickProps(this.props);
         const { isListening } = this.state;
         if (!isListening) {
-            this.store.dispatch(subscribeCollection(queryProps));
+            this.store.dispatch(subscribeCollection(queryProps, onError));
         }
     }
 
@@ -74,11 +75,12 @@ export default class FSCollection extends Component {
     }
 
     resetQuery() {
+        const { onError } = this.props;
         const queryProps = pickProps(this.props);
         const { unsubscribe } = this.state;
         unsubscribe();
         this.store.dispatch(resetCollectionStore());
-        this.store.dispatch(subscribeCollection(queryProps));
+        this.store.dispatch(subscribeCollection(queryProps, onError));
     }
 
     subscribeToStore() {
@@ -182,6 +184,7 @@ FSCollection.propTypes = {
     cacheStrategy: PropTypes.oneOf([
         'subscribeOnce',
     ]),
+    onError: PropTypes.func,
 };
 
 FSCollection.defaultProps = {
@@ -194,4 +197,5 @@ FSCollection.defaultProps = {
     endAt: undefined,
     endBefore: undefined,
     cacheStrategy: undefined,
+    onError: () => {},
 };

@@ -7,7 +7,7 @@ import {
 } from '../actions';
 
 const initialState = {
-    doc: undefined,
+    doc: null,
     isLoading: true,
     isListening: false,
 };

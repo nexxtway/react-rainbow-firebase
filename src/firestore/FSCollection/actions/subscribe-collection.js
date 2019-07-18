@@ -6,7 +6,7 @@ export const COLLECTION_DATA_CHANGED = 'COLLECTION_DATA_CHANGED';
 export const COLLECTION_LOAD_ERROR = 'COLLECTION_LOAD_ERROR';
 export const COLLECTION_UNSUBSCRIBE_FUNCTION = 'COLLECTION_UNSUBSCRIBE_FUNCTION';
 
-export default function subscribeCollection(opts) {
+export default function subscribeCollection(opts, onError) {
     return dispatch => {
         dispatch({
             type: START_LOADING,
@@ -18,6 +18,7 @@ export default function subscribeCollection(opts) {
             });
         }, error => {
             console.log(error.message);
+            onError(error);
             dispatch({
                 type: COLLECTION_LOAD_ERROR,
                 error,

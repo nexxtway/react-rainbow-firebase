@@ -31,5 +31,5 @@ export default function listenCollection(opts, onDocChange, onError) {
                     data: doc.data(),
                 })));
             }
-        }, error => onError(error));
+        }, onError);
 }
