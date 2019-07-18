@@ -8,5 +8,5 @@ export default function listenDoc(ref, onDocChange, onError) {
         } else {
             onDocChange(null);
         }
-    }, error => onError(error));
+    }, onError);
 }

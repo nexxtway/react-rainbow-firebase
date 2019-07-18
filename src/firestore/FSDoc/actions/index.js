@@ -7,7 +7,7 @@ export const LOAD_DOC = 'LOAD_DOC';
 export const DOC_ERROR = 'DOC_ERROR';
 export const LOAD_DOC_UNSUBSCRIBE_FUNCTION = 'LOAD_DOC_UNSUBSCRIBE_FUNCTION';
 
-function getDocOnce(docRef) {
+function getDocOnce(docRef, onError) {
     return dispatch => {
         dispatch({
             type: START_LOADING_DOC,
@@ -18,6 +18,7 @@ function getDocOnce(docRef) {
                 doc,
             }))
             .catch(error => {
+                onError(error);
                 console.log(error.message);
                 dispatch({
                     type: DOC_ERROR,
@@ -27,7 +28,7 @@ function getDocOnce(docRef) {
     };
 }
 
-function startListenDoc(docRef) {
+function startListenDoc(docRef, onError) {
     return (dispatch, getState) => {
         if (!isListening(getState())) {
             dispatch({
@@ -39,6 +40,7 @@ function startListenDoc(docRef) {
                     doc,
                 });
             }, error => {
+                onError(error);
                 console.log(error.message);
                 dispatch({
                     type: DOC_ERROR,
@@ -53,12 +55,12 @@ function startListenDoc(docRef) {
     };
 }
 
-export function subscribeDoc(docRef, once) {
+export function subscribeDoc(docRef, once, onError) {
     return dispatch => {
         if (once) {
-            return dispatch(getDocOnce(docRef));
+            return dispatch(getDocOnce(docRef, onError));
         }
-        return dispatch(startListenDoc(docRef));
+        return dispatch(startListenDoc(docRef, onError));
     };
 }
 

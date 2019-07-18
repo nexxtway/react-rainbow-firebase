@@ -20,13 +20,13 @@ export default class FSDoc extends Component {
     }
 
     componentDidMount() {
-        const { docRef, once } = this.props;
+        const { docRef, once, onError } = this.props;
         const ref = getDocReference(docRef);
-        this.store.dispatch(subscribeDoc(ref, once));
+        this.store.dispatch(subscribeDoc(ref, once, onError));
     }
 
     componentDidUpdate({ docRef: prevDocRef }) {
-        const { docRef, once } = this.props;
+        const { docRef, once, onError } = this.props;
         if (prevDocRef !== docRef) {
             const { unsubscribe } = this.state;
             if (unsubscribe) {
@@ -34,7 +34,7 @@ export default class FSDoc extends Component {
             }
             this.store.dispatch(resetDocStore());
             const ref = getDocReference(docRef);
-            this.store.dispatch(subscribeDoc(ref, once));
+            this.store.dispatch(subscribeDoc(ref, once, onError));
         }
     }
 
@@ -92,10 +92,12 @@ FSDoc.propTypes = {
     component: PropTypes.func,
     /** If set to true get the doc data once and does not stay listening. */
     once: PropTypes.bool,
+    onError: PropTypes.func,
 };
 
 FSDoc.defaultProps = {
     /* eslint-disable-next-line */
     component: ({ doc }) => <ReactJson src={doc} />,
     once: false,
+    onError: () => {},
 };
