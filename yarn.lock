@@ -10610,9 +10610,9 @@ react-prismic-cms@^0.2.0:
     react-json-view "^1.19.1"
     react-rainbow-components "^0.5.0"
 
-react-rainbow-components@1.3.1-canary.f440e4e:
-  version "1.3.1-canary.f440e4e"
-  resolved "https://registry.yarnpkg.com/react-rainbow-components/-/react-rainbow-components-1.3.1-canary.f440e4e.tgz#513c425306c9d892a9f8533ca1f31e4aa95af596"
+react-rainbow-components@1.3.1-canary.034054b:
+  version "1.3.1-canary.034054b"
+  resolved "https://registry.yarnpkg.com/react-rainbow-components/-/react-rainbow-components-1.3.1-canary.034054b.tgz#07b8d5d98fcce76573a4f5671de5645f71a4005e"
   dependencies:
     autosize "^4.0.2"
     chart.js "^2.7.3"
