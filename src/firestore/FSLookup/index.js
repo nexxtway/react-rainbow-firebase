@@ -61,6 +61,8 @@ FSLookup.propTypes = {
         PropTypes.string,
         PropTypes.node,
     ]),
+    /* If it set to true then the value typed will show as first option. */
+    includeValueAsOption: PropTypes.bool,
 };
 
 FSLookup.defaultProps = {
@@ -75,6 +77,7 @@ FSLookup.defaultProps = {
     onChange: () => {},
     value: undefined,
     error: undefined,
+    includeValueAsOption: false,
 };
 
 export default withReduxForm(FSLookup);

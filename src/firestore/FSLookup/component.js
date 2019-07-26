@@ -52,6 +52,11 @@ export default class FSLookupComponent extends Component {
             data: options,
         } = this.props;
 
+        if (value && value.isValueOption) {
+            return this.setState({
+                value,
+            });
+        }
         return fetchValue(options, getNormalizedValue(value))
             .then(fetchedValue => {
                 this.setState({
@@ -61,8 +66,19 @@ export default class FSLookupComponent extends Component {
     }
 
     handleSearch(value) {
+        const { includeValueAsOption } = this.props;
         const filteredOptions = filter(value, this[privateOptions]);
-        this.setState({
+
+        if (includeValueAsOption && value) {
+            const firstOption = {
+                label: value,
+                isValueOption: true,
+            };
+            return this.setState({
+                options: [firstOption, ...filteredOptions],
+            });
+        }
+        return this.setState({
             options: filteredOptions.length ? filteredOptions : null,
         });
     }
@@ -70,7 +86,10 @@ export default class FSLookupComponent extends Component {
     handleChange(value) {
         const { onChange, collectionRef } = this.props;
         if (value) {
-            const { id, data } = value;
+            const { id, data, isValueOption } = value;
+            if (isValueOption) {
+                return onChange(value);
+            }
             const docRef = `${collectionRef}/${id}`;
             return onChange({
                 ref: getDocReference(docRef),
@@ -142,6 +161,7 @@ FSLookupComponent.propTypes = {
         PropTypes.string,
         PropTypes.node,
     ]),
+    includeValueAsOption: PropTypes.bool.isRequired,
 };
 
 FSLookupComponent.defaultProps = {

@@ -10,11 +10,12 @@ Basic example:
         value={state.value}
         onChange={(value) => setState({ value })} />
 
-Patients example:
+Patients example with includeValueAsOption:
 
     <FSLookup
         label="Find patient"
         collectionRef="patients"
+        includeValueAsOption
         optionsMapFn={(patient) => ({
             label: patient.data.firstName,
         })}
