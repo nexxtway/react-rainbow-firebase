@@ -73,7 +73,12 @@ FSLookup.defaultProps = {
     startAfter: undefined,
     endAt: undefined,
     endBefore: undefined,
-    optionsMapFn: doc => ({ label: doc.id }),
+    optionsMapFn: doc => {
+        if (doc.isValueOption) {
+            return doc;
+        }
+        return { label: doc.id };
+    },
     onChange: () => {},
     value: undefined,
     error: undefined,

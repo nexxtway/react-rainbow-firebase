@@ -54,7 +54,7 @@ export default class FSLookupComponent extends Component {
 
         if (value && value.isValueOption) {
             return this.setState({
-                value,
+                value: getValue(optionsMapFn(value)),
             });
         }
         return fetchValue(options, getNormalizedValue(value))
@@ -66,14 +66,14 @@ export default class FSLookupComponent extends Component {
     }
 
     handleSearch(value) {
-        const { includeValueAsOption } = this.props;
+        const { includeValueAsOption, optionsMapFn } = this.props;
         const filteredOptions = filter(value, this[privateOptions]);
 
         if (includeValueAsOption && value) {
-            const firstOption = {
+            const firstOption = optionsMapFn({
                 label: value,
                 isValueOption: true,
-            };
+            });
             return this.setState({
                 options: [firstOption, ...filteredOptions],
             });
