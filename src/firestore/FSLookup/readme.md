@@ -16,9 +16,14 @@ Patients example with includeValueAsOption:
         label="Find patient"
         collectionRef="patients"
         includeValueAsOption
-        optionsMapFn={(patient) => ({
-            label: patient.data.firstName,
-        })}
+        optionsMapFn={(patient) => {
+            if (patient.isValueOption) {
+                return patient;
+            }
+            return {
+                label: patient.data.firstName,
+            };
+        }}
         value={state.value}
         onChange={(value) => setState({ value })} />
 
