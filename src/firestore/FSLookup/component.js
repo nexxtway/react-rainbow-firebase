@@ -78,8 +78,13 @@ export default class FSLookupComponent extends Component {
                 options: [firstOption, ...filteredOptions],
             });
         }
+        if (value) {
+            return this.setState({
+                options: filteredOptions.length ? filteredOptions : [],
+            });
+        }
         return this.setState({
-            options: filteredOptions.length ? filteredOptions : null,
+            options: null,
         });
     }
 
