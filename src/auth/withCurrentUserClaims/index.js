@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable react/prop-types, react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import FirebaseApp from '../../firebase';
 

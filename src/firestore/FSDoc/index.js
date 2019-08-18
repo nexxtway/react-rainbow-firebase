@@ -74,6 +74,7 @@ export default class FSDoc extends Component {
 
         return (
             <DocComponent
+                // eslint-disable-next-line react/jsx-props-no-spreading
                 {...rest}
                 doc={doc}
                 isLoading={isLoading}
@@ -96,7 +97,7 @@ FSDoc.propTypes = {
 };
 
 FSDoc.defaultProps = {
-    /* eslint-disable-next-line */
+    // eslint-disable-next-line react/prop-types
     component: ({ doc }) => <ReactJson src={doc} />,
     once: false,
     onError: () => {},

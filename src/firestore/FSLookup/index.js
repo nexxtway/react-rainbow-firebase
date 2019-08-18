@@ -16,6 +16,7 @@ class FSLookup extends Component {
 
         return (
             <FSCollection
+                // eslint-disable-next-line react/jsx-props-no-spreading
                 {...rest}
                 lookupComponent={LookupComponent}
                 lookupError={error}

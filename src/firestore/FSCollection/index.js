@@ -141,6 +141,7 @@ export default class FSCollection extends Component {
 
         return (
             <CollectionComponent
+                // eslint-disable-next-line react/jsx-props-no-spreading
                 {...rest}
                 collectionRef={collectionRef}
                 data={data}
@@ -188,7 +189,7 @@ FSCollection.propTypes = {
 };
 
 FSCollection.defaultProps = {
-    /* eslint-disable-next-line */
+    // eslint-disable-next-line react/prop-types
     component: ({ data }) => <ReactJson src={data} />,
     query: [],
     limit: undefined,

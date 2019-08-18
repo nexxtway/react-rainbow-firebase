@@ -132,6 +132,7 @@ export default class FSLookupComponent extends Component {
 
         return (
             <LookupComponent
+                // eslint-disable-next-line react/jsx-props-no-spreading
                 {...rest}
                 options={options}
                 value={value}
