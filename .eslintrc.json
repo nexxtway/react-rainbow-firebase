@@ -8,6 +8,7 @@
         "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
         "react/jsx-first-prop-new-line": "off",
         "react/jsx-closing-bracket-location": "off",
+        "react/jsx-curly-newline": "off",
         "react/forbid-prop-types": "off",
         "no-mixed-operators": "off",
         "arrow-parens": ["error", "as-needed"]

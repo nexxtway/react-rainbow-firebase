@@ -1,6 +1,5 @@
 /* eslint-disable */
 const path = require('path');
-const withRainbowStyles = require('react-rainbow-styleguide');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 const version = require('./package.json').version;
@@ -17,13 +16,12 @@ if (env.parsed && !env.error) {
     envKeys = {};
 }
 
-module.exports = withRainbowStyles({
+module.exports = {
     version,
     title: 'react-rainbow-firebase',
     ignore: ['**/__tests__/**', '/node_modules/**'],
     skipComponentsWithoutExample: true,
     pagePerSection: true,
-    assetsDir: 'public',
     ribbon: {
         url: 'https://github.com/90milesbridge/react-rainbow-firebase',
     },
@@ -63,7 +61,13 @@ module.exports = withRainbowStyles({
         },
         {
             name: 'Firestore Components',
-            components: 'src/firestore/**/index.js',
+            components: 'src/firestore/*/index.js',
+            sectionDepth: 1,
+            usageMode: 'expand',
+        },
+        {
+            name: 'Firestore Hooks',
+            components: 'src/firestore/hooks/*/index.js',
             sectionDepth: 1,
             usageMode: 'expand',
         },
@@ -102,4 +106,4 @@ module.exports = withRainbowStyles({
             new webpack.DefinePlugin(envKeys),
         ],
     },
-});
+};
