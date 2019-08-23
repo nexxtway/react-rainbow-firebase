@@ -7,7 +7,7 @@ class FirebaseApp {
     initializeApp(config) {
         this.instance = firebase.initializeApp(config);
         this.instance.listeners = {
-            unsubcribeFromAll: FirestoreListeners.unsubcribeFromAll,
+            unsubscribeFromAll: FirestoreListeners.unsubscribeFromAll,
         };
     }
 }

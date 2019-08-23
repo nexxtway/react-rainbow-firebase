@@ -21,7 +21,7 @@ class FirestoreListeners {
         }
     }
 
-    unsubcribeFromAll() {
+    unsubscribeFromAll() {
         if (this.listeners.size > 0) {
             this.listeners.forEach(unsubscribeListener => {
                 if (typeof unsubscribeListener === 'function') {
