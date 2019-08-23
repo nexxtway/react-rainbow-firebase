@@ -13,6 +13,7 @@ export default function listenIdsCollection(idsCollection, onChange, onError) {
                     return {
                         type,
                         id: doc.id,
+                        data: doc.data(),
                     };
                 }));
             }
