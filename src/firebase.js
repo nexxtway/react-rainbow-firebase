@@ -6,8 +6,8 @@ import FirestoreListeners from './firestore/firestore-listeners';
 class FirebaseApp {
     initializeApp(config) {
         this.instance = firebase.initializeApp(config);
-        this.instance.listeners = {
-            unsubscribeFromAll: FirestoreListeners.unsubscribeFromAll,
+        this.instance.firestoreListeners = {
+            unsubscribeFromAll: FirestoreListeners.unsubscribeFromAll.bind(FirestoreListeners),
         };
     }
 }
