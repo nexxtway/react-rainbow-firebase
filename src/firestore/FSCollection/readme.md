@@ -1,6 +1,6 @@
 Base example:
 
-    <FSCollection collectionRef="users" limit={10} />
+    <FSCollection collectionRef="users" limit={10} cacheStrategy="subscribeOnce" />
 
 Limited to 5 regular users:
 
@@ -50,4 +50,4 @@ Table example:
 
 Subcollection example:
 
-    <FSCollection collectionRef="users/5Bfk11EuAs05myqnMfaq/friends" />
+    <FSCollection collectionRef="users/5Bfk11EuAs05myqnMfaq/patients" />

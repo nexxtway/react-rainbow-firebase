@@ -1,32 +1,31 @@
 /* eslint-disable no-console */
 import listenCollection from '../services/listen-collection';
+import FirestoreListeners from '../../firestore-listeners';
 
-export const START_LOADING = 'START_LOADING';
 export const COLLECTION_DATA_CHANGED = 'COLLECTION_DATA_CHANGED';
 export const COLLECTION_LOAD_ERROR = 'COLLECTION_LOAD_ERROR';
-export const COLLECTION_UNSUBSCRIBE_FUNCTION = 'COLLECTION_UNSUBSCRIBE_FUNCTION';
 
-export default function subscribeCollection(opts, onError) {
+export default function subscribeCollection(params) {
     return dispatch => {
-        dispatch({
-            type: START_LOADING,
-        });
-        const unsubscribe = listenCollection(opts, data => {
-            dispatch({
-                type: COLLECTION_DATA_CHANGED,
-                data,
+        const { id, queryProps, onError } = params;
+        if (!FirestoreListeners.isListening({ at: id })) {
+            const unsubscribe = listenCollection(queryProps, data => {
+                dispatch({
+                    type: COLLECTION_DATA_CHANGED,
+                    data,
+                });
+            }, error => {
+                console.log(error.message);
+                onError(error);
+                dispatch({
+                    type: COLLECTION_LOAD_ERROR,
+                    error,
+                });
             });
-        }, error => {
-            console.log(error.message);
-            onError(error);
-            dispatch({
-                type: COLLECTION_LOAD_ERROR,
-                error,
+            FirestoreListeners.register({
+                id,
+                unsubscribe,
             });
-        });
-        dispatch({
-            type: COLLECTION_UNSUBSCRIBE_FUNCTION,
-            unsubscribe,
-        });
+        }
     };
 }

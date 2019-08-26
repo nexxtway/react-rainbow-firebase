@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactJson from 'react-json-view';
 import pick from 'lodash/pick';
+import FirestoreListeners from '../firestore-listeners';
 import {
     subscribeCollection,
-    resetCollectionStore,
+    reset,
 } from './actions';
 import {
     addDocument,
@@ -50,37 +51,37 @@ export default class FSCollection extends Component {
     componentDidMount() {
         const { onError } = this.props;
         const queryProps = pickProps(this.props);
-        const { isListening } = this.state;
-        if (!isListening) {
-            this.store.dispatch(subscribeCollection(queryProps, onError));
-        }
+        const id = generateId(queryProps);
+        this.store.dispatch(subscribeCollection({
+            id,
+            queryProps,
+            onError,
+        }));
     }
 
     componentDidUpdate(prevProps) {
         const prevQueryProps = pickProps(prevProps);
         const queryProps = pickProps(this.props);
         if (hasQueryPropsChanged(prevQueryProps, queryProps)) {
-            this.resetQuery();
+            const { onError } = this.props;
+            const id = generateId(queryProps);
+            reset({
+                id,
+                queryProps,
+                onError,
+            });
         }
     }
 
     componentWillUnmount() {
-        const { unsubscribe } = this.state;
         const { cacheStrategy } = this.props;
         const isSubscribeOnce = cacheStrategy === 'subscribeOnce';
         if (!isSubscribeOnce) {
-            unsubscribe();
+            const queryProps = pickProps(this.props);
+            const id = generateId(queryProps);
+            FirestoreListeners.unsubscribe({ from: id });
         }
         this.unsubscribeFromStore();
-    }
-
-    resetQuery() {
-        const { onError } = this.props;
-        const queryProps = pickProps(this.props);
-        const { unsubscribe } = this.state;
-        unsubscribe();
-        this.store.dispatch(resetCollectionStore());
-        this.store.dispatch(subscribeCollection(queryProps, onError));
     }
 
     subscribeToStore() {
