@@ -1,39 +1,30 @@
 /* eslint-disable no-console */
+import FirestoreListeners from '../../firestore-listeners';
 import { listenDoc, fetchDoc } from '../services';
-import { isListening } from '../reducer/getters';
 
-export const START_LOADING_DOC = 'START_LOADING_DOC';
 export const LOAD_DOC = 'LOAD_DOC';
-export const DOC_ERROR = 'DOC_ERROR';
-export const LOAD_DOC_UNSUBSCRIBE_FUNCTION = 'LOAD_DOC_UNSUBSCRIBE_FUNCTION';
+export const LOAD_DOC_ERROR = 'LOAD_DOC_ERROR';
 
 function getDocOnce(docRef, onError) {
-    return dispatch => {
-        dispatch({
-            type: START_LOADING_DOC,
-        });
-        return fetchDoc(docRef)
-            .then(doc => dispatch({
-                type: LOAD_DOC,
-                doc,
-            }))
-            .catch(error => {
-                onError(error);
-                console.log(error.message);
-                dispatch({
-                    type: DOC_ERROR,
-                    error,
-                });
+    return dispatch => fetchDoc(docRef)
+        .then(doc => dispatch({
+            type: LOAD_DOC,
+            doc,
+        }))
+        .catch(error => {
+            onError(error);
+            console.log(error.message);
+            dispatch({
+                type: LOAD_DOC_ERROR,
+                error,
             });
-    };
+        });
 }
 
 function startListenDoc(docRef, onError) {
-    return (dispatch, getState) => {
-        if (!isListening(getState())) {
-            dispatch({
-                type: START_LOADING_DOC,
-            });
+    return dispatch => {
+        const { path } = docRef;
+        if (!FirestoreListeners.isListening({ at: path })) {
             const unsubscribe = listenDoc(docRef, doc => {
                 dispatch({
                     type: LOAD_DOC,
@@ -43,12 +34,12 @@ function startListenDoc(docRef, onError) {
                 onError(error);
                 console.log(error.message);
                 dispatch({
-                    type: DOC_ERROR,
+                    type: LOAD_DOC_ERROR,
                     error,
                 });
             });
-            dispatch({
-                type: LOAD_DOC_UNSUBSCRIBE_FUNCTION,
+            FirestoreListeners.register({
+                id: path,
                 unsubscribe,
             });
         }

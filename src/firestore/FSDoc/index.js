@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactJson from 'react-json-view';
 import getDocReference from '../../helpers/get-doc-reference';
+import FirestoreListeners from '../firestore-listeners';
 import { subscribeDoc, resetDocStore } from './actions';
 import { updateDocument, removeDocument } from './services';
 import { create } from './store';
@@ -28,12 +29,9 @@ export default class FSDoc extends Component {
     componentDidUpdate({ docRef: prevDocRef }) {
         const { docRef, once, onError } = this.props;
         if (prevDocRef !== docRef) {
-            const { unsubscribe } = this.state;
-            if (unsubscribe) {
-                unsubscribe();
-            }
-            this.store.dispatch(resetDocStore());
             const ref = getDocReference(docRef);
+            FirestoreListeners.unsubscribe({ from: ref.path });
+            this.store.dispatch(resetDocStore());
             this.store.dispatch(subscribeDoc(ref, once, onError));
         }
     }

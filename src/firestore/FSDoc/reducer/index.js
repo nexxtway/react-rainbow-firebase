@@ -1,24 +1,13 @@
 import {
-    START_LOADING_DOC,
     LOAD_DOC,
-    DOC_ERROR,
-    LOAD_DOC_UNSUBSCRIBE_FUNCTION,
+    LOAD_DOC_ERROR,
     RESET_DOC_STORE,
 } from '../actions';
 
 const initialState = {
     doc: null,
     isLoading: true,
-    isListening: false,
 };
-
-function startLoading(state) {
-    return {
-        ...state,
-        isLoading: true,
-        isListening: true,
-    };
-}
 
 function loadDoc(state, { doc }) {
     return {
@@ -36,26 +25,13 @@ function loadError(state, { error }) {
     };
 }
 
-function loadDocUnsubscribe(state, { unsubscribe }) {
-    return {
-        ...state,
-        unsubscribe,
-    };
-}
-
 export default function docReducer(state = initialState, action) {
     switch (action.type) {
-        case START_LOADING_DOC:
-            return startLoading(state, action);
-
         case LOAD_DOC:
             return loadDoc(state, action);
 
-        case DOC_ERROR:
+        case LOAD_DOC_ERROR:
             return loadError(state, action);
-
-        case LOAD_DOC_UNSUBSCRIBE_FUNCTION:
-            return loadDocUnsubscribe(state, action);
 
         case RESET_DOC_STORE:
             return initialState;

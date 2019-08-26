@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import listenCollection from '../services/listen-collection';
 import FirestoreListeners from '../../firestore-listeners';
+import listenCollection from '../services/listen-collection';
 
 export const COLLECTION_DATA_CHANGED = 'COLLECTION_DATA_CHANGED';
 export const COLLECTION_LOAD_ERROR = 'COLLECTION_LOAD_ERROR';
