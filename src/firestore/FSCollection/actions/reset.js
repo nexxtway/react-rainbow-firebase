@@ -4,14 +4,9 @@ import subscribeCollection from './subscribe-collection';
 
 export default function reset(params) {
     return dispatch => {
-        const {
-            id,
-            queryProps,
-            onError,
-        } = params;
-
+        const { id } = params;
         FirestoreListeners.unsubscribe({ from: id });
         dispatch(resetCollectionStore());
-        return dispatch(subscribeCollection(queryProps, onError));
+        return dispatch(subscribeCollection(params));
     };
 }

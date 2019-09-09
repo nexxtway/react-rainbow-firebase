@@ -65,11 +65,11 @@ export default class FSCollection extends Component {
         if (hasQueryPropsChanged(prevQueryProps, queryProps)) {
             const { onError } = this.props;
             const id = generateId(queryProps);
-            reset({
+            this.store.dispatch(reset({
                 id,
                 queryProps,
                 onError,
-            });
+            }));
         }
     }
 
