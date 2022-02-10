@@ -80,7 +80,7 @@
     "file-loader": "^4.2.0",
     "firebase": "^6.4.0",
     "firebase-tools": "^7.2.2",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "pre-push": "^0.1.1",
     "react-styleguidist": "^9.1.14",
     "redux-form": "^8.2.1",
