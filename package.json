@@ -1,6 +1,6 @@
 {
   "name": "react-rainbow-firebase",
-  "version": "0.1.0-canary.38",
+  "version": "0.1.0-canary.39",
   "description": "React Rainbow Firebase",
   "keywords": [
     "react",
@@ -10,7 +10,9 @@
     "firebase"
   ],
   "main": "components/index.js",
-  "files": ["components"],
+  "files": [
+    "components"
+  ],
   "authors": [
     "Reinier Guerra",
     "Leandro Torres"
