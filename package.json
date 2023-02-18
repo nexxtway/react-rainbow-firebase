@@ -59,7 +59,7 @@
     ]
   },
   "peerDependencies": {
-    "firebase": "^6.0.2"
+    "firebase": "^9.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -78,7 +78,7 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "file-loader": "^4.2.0",
-    "firebase": "^6.4.0",
+    "firebase": "^9.17.1",
     "firebase-tools": "^7.2.2",
     "node-sass": "^4.12.0",
     "pre-push": "^0.1.1",
