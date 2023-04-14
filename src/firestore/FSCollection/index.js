@@ -64,9 +64,11 @@ export default class FSCollection extends Component {
         const queryProps = pickProps(this.props);
         if (hasQueryPropsChanged(prevQueryProps, queryProps)) {
             const { onError } = this.props;
+            const prevId = generateId(prevQueryProps);
             const id = generateId(queryProps);
             this.store.dispatch(reset({
                 id,
+                prevId,
                 queryProps,
                 onError,
             }));
